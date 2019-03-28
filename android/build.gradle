@@ -31,3 +31,9 @@ allprojects {
         }
     }
 }
+
+dependencies {
+    /*compile project(':siriwaveview')
+    compile project(':react-native-siri-wave-view')
+    compile fileTree(dir: "libs", include: ["*.jar"])*/
+}

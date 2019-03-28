@@ -138,6 +138,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-siri-wave-view')
+    implementation project(':react-native-dialogflow')
     implementation project(':react-native-gesture-handler')
     implementation project(':lottie-react-native')
     implementation fileTree(dir: "libs", include: ["*.jar"])

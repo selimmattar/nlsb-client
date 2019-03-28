@@ -11,6 +11,7 @@ import Settings from '../components/Settings'
 import Lessons from '../components/Lessons'
 import AuthLoading from "../components/AuthLoading"
 import LoginForm from '../components/LoginForm';
+import SiriWave from '../components/SiriWave'
 import HomePage from "../components/HomePage";
 import TabNavigator from "../components/TabNavigator"
 
@@ -18,6 +19,7 @@ const App = createMaterialTopTabNavigator(
   {
     //Chat : Chat,
     Lessons : Lessons,
+    SiriWave : SiriWave,
     Stats : Stats,
     Settings : Settings
   },

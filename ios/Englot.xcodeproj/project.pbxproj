@@ -43,6 +43,8 @@
 		1528BE68E5504FF1B9B9CEAC /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E15AD8EC6CA48FCB4FDAC6F /* libLottie.a */; };
 		2664612D693F4267BF09CE2D /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 646C63A2890547ED9BE613A9 /* libLottieReactNative.a */; };
 		B6CCE0C8667348D9956F34BE /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A1DF6F263B94A1485430E1E /* libRNGestureHandler.a */; };
+		CBBC57A6B0F74A4EBFABA13E /* libApiAi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C39481C4354426916AC2E2 /* libApiAi.a */; };
+		DBB07631FA3A4680A4229C0F /* libRNSiriWaveView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 474C0ADD682E47E3B22551AE /* libRNSiriWaveView.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -357,6 +359,10 @@
 		646C63A2890547ED9BE613A9 /* libLottieReactNative.a */ = {isa = PBXFileReference; name = "libLottieReactNative.a"; path = "libLottieReactNative.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		0D4570F8672D43059C4BA364 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; name = "RNGestureHandler.xcodeproj"; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		9A1DF6F263B94A1485430E1E /* libRNGestureHandler.a */ = {isa = PBXFileReference; name = "libRNGestureHandler.a"; path = "libRNGestureHandler.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		04A0A91BE3C246FBB759980E /* ApiAi.xcodeproj */ = {isa = PBXFileReference; name = "ApiAi.xcodeproj"; path = "../node_modules/react-native-dialogflow/ios/ApiAi.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		A6C39481C4354426916AC2E2 /* libApiAi.a */ = {isa = PBXFileReference; name = "libApiAi.a"; path = "libApiAi.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8660FE689BFC440182251192 /* RNSiriWaveView.xcodeproj */ = {isa = PBXFileReference; name = "RNSiriWaveView.xcodeproj"; path = "../node_modules/react-native-siri-wave-view/ios/RNSiriWaveView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		474C0ADD682E47E3B22551AE /* libRNSiriWaveView.a */ = {isa = PBXFileReference; name = "libRNSiriWaveView.a"; path = "libRNSiriWaveView.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -389,6 +395,8 @@
 				1528BE68E5504FF1B9B9CEAC /* libLottie.a in Frameworks */,
 				2664612D693F4267BF09CE2D /* libLottieReactNative.a in Frameworks */,
 				B6CCE0C8667348D9956F34BE /* libRNGestureHandler.a in Frameworks */,
+				CBBC57A6B0F74A4EBFABA13E /* libApiAi.a in Frameworks */,
+				DBB07631FA3A4680A4229C0F /* libRNSiriWaveView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +589,8 @@
 				B7DDEE97898241AE96D0C3A0 /* Lottie.xcodeproj */,
 				D95A9BFD91AA45D7965C959E /* LottieReactNative.xcodeproj */,
 				0D4570F8672D43059C4BA364 /* RNGestureHandler.xcodeproj */,
+				04A0A91BE3C246FBB759980E /* ApiAi.xcodeproj */,
+				8660FE689BFC440182251192 /* RNSiriWaveView.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1212,12 +1222,16 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Debug;
@@ -1243,12 +1257,16 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Release;
@@ -1274,6 +1292,8 @@
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Debug;
@@ -1298,6 +1318,8 @@
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Release;
@@ -1331,12 +1353,16 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Debug;
@@ -1370,12 +1396,16 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Release;
@@ -1408,12 +1438,16 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Debug;
@@ -1446,12 +1480,16 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\lottie-ios\lottie-ios\Classes/**",
 					"$(SRCROOT)\..\node_modules\lottie-react-native\src\ios\LottieReactNative",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-dialogflow\ios\ApiAi",
+					"$(SRCROOT)\..\node_modules\react-native-siri-wave-view\ios",
 				);
 			};
 			name = Release;

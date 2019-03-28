@@ -30,7 +30,7 @@ class AuthLoading extends React.Component {
           console.log('not null');
           console.log(response[0][1]);
           axios
-            .post('http://192.168.1.13:4000/users/getByIds', {
+            .post('http://192.168.1.15:4000/users/getByIds', {
               _id: response[0][1],
             })
             .then(res => {

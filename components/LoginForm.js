@@ -6,10 +6,14 @@ import {
   ImageBackground,
   Image,
   AsyncStorage,
+  KeyboardAvoidingView,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator, Button
 } from 'react-native';
 import firebase from 'firebase';
 import { Input } from './common/input';
-import { Button } from './common/Button';
+//import { Button } from './common/Button';
 import { Spinner } from './common/Spinner';
 import axios from 'axios';
 import data from '../assets/anim/data.json';
@@ -36,7 +40,6 @@ export default class LoginForm extends React.Component {
     authenticated: false,
   };
   componentDidMount() {
-    console.log('aaaaaaaaaaaaa');
     this._playAnimation();
   }
   constructor(props) {
@@ -53,7 +56,9 @@ export default class LoginForm extends React.Component {
     if (this.state.isLoadingComplete) {
       return (
         <Button
-          OnPress={e => {
+        title= "Log In"
+        color="#D82735"
+          onPress={() => {
             this.setState({ isLoadingComplete: false });
             this.setState({ token: 'token is set' });
             console.log('Hellooo !');
@@ -104,18 +109,16 @@ export default class LoginForm extends React.Component {
               });*/
           }}
         >
-          Log In
         </Button>
       );
     }
-    return <Spinner size="small" />;
+    else return (<ActivityIndicator size="small" color="#ffffff" />);
   }
   render() {
     return (
-      <ImageBackground
-        source={require('../assets/images/SplashBack.png')}
-        style={styles.imgBackground}
-      >
+      <View 
+      style = {styles.container}>
+
         <LottieView
           ref={animation => {
             this.animation = animation;
@@ -129,20 +132,38 @@ export default class LoginForm extends React.Component {
           source={data}
           loop={false}
         />
-        <Input
+        <KeyboardAvoidingView
+        style={styles.formContainer}
+        //behavior = "position" 
+        >
+        <TextInput
+        style={styles.Input}
           placeholder="Enter your username..."
+          placeholderTextColor = "rgba(255,255,255,0.7)"
           label="username"
+          autoCapitalize = "none"
+          autoCorrect = {false}
           onChangeText={username => this.setState({ username })}
           secureTextEntry={false}
+          returnKeyType = "next"
+          OnSubmitEditing = {() => { this.secondTextInput.current.focus(); }}
+          
         />
-        <Input
+        <TextInput
+        style={styles.Input}
           placeholder="Enter your password..."
+          placeholderTextColor = "rgba(255,255,255,0.7)"
           label="Password"
+          autoCapitalize = "none"
+          autoCorrect = {false}
           onChangeText={password => this.setState({ password })}
           secureTextEntry={true}
+          ref={(input) => { this.secondTextInput = input; }}
+          returnKeyType = "go"
         />
         {this.renderButton()}
-      </ImageBackground>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
   _playAnimation = () => {
@@ -166,25 +187,30 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
+    flex: 3,
+    backgroundColor: '#0052A5',
+    //padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  imgBackground: {
-    width: '100%',
-    height: '100%',
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
   Logo: {
-    width: '70%',
-    height: '70%',
-    flex: 1,
-    justifyContent: 'flex-start',
+    //width: '30%',
+    //height: '30%',
+    flex: 2,
+    justifyContent: 'center',
     alignItems: 'center',
     resizeMode: 'contain',
   },
+  Input: {
+    backgroundColor : 'rgba(255,255,255,0.2)',
+    marginBottom : 20,
+    color : "#FFF",
+    paddingHorizontal : 20,
+  },
+  button : {
+    paddingVertical : 10
+  },
+  formContainer : {
+    flex : 1
+  }
 });

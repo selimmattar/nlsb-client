@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import MySingleton from './Singleton/MySingleton';
 
 class AuthLoading extends React.Component {
   state = {
@@ -30,7 +31,11 @@ class AuthLoading extends React.Component {
           console.log('not null');
           console.log(response[0][1]);
           axios
+<<<<<<< HEAD
             .post('http://192.168.1.18:4000/users/getByIds', {
+=======
+            .post('http://'+MySingleton.getIp()+':4000/users/getByIds', {
+>>>>>>> 2cf7adbbdd101babe24b0da031ebc596af392564
               _id: response[0][1],
             })
             .then(res => {

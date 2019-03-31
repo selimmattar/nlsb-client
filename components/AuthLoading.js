@@ -31,7 +31,7 @@ class AuthLoading extends React.Component {
           console.log('not null');
           console.log(response[0][1]);
           axios
-            .post('http://'+MySingleton.getIp()+':4000/users/getByIds', {
+            .post('http://' + MySingleton.getIp() + ':4000/users/getByIds', {
               _id: response[0][1],
             })
             .then(res => {

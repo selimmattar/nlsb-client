@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator, Button
+  ActivityIndicator,
+  Button,
 } from 'react-native';
 import axios from 'axios';
 import MySingleton from './Singleton/MySingleton';
@@ -53,8 +54,8 @@ export default class LoginForm extends React.Component {
     if (this.state.isLoadingComplete) {
       return (
         <Button
-        title= "Log In"
-        color="#D82735"
+          title="Log In"
+          color="#D82735"
           onPress={() => {
             this.setState({ isLoadingComplete: false });
             this.setState({ token: 'token is set' });
@@ -63,10 +64,13 @@ export default class LoginForm extends React.Component {
             //this.props.login(this.state.token);
 
             axios
-              .post('http://'+MySingleton.getId()+':4000/users/authenticate', {
-                username: this.state.username,
-                password: this.state.password,
-              })
+              .post(
+                'http://' + MySingleton.getId() + ':4000/users/authenticate',
+                {
+                  username: this.state.username,
+                  password: this.state.password,
+                },
+              )
               .then(res => {
                 const { token, ...currentUser } = res.data;
                 this.setState({ currentUser });
@@ -105,17 +109,13 @@ export default class LoginForm extends React.Component {
                 this.setState({ isLoadingComplete: true });
               });*/
           }}
-        >
-        </Button>
+        />
       );
-    }
-    else return (<ActivityIndicator size="small" color="#ffffff" />);
+    } else return <ActivityIndicator size="small" color="#ffffff" />;
   }
   render() {
     return (
-      <View 
-      style = {styles.container}>
-
+      <View style={styles.container}>
         <LottieView
           ref={animation => {
             this.animation = animation;
@@ -130,35 +130,38 @@ export default class LoginForm extends React.Component {
           loop={false}
         />
         <KeyboardAvoidingView
-        style={styles.formContainer}
-        //behavior = "position" 
+          style={styles.formContainer}
+          //behavior = "position"
         >
-        <TextInput
-        style={styles.Input}
-          placeholder="Enter your username..."
-          placeholderTextColor = "rgba(255,255,255,0.7)"
-          label="username"
-          autoCapitalize = "none"
-          autoCorrect = {false}
-          onChangeText={username => this.setState({ username })}
-          secureTextEntry={false}
-          returnKeyType = "next"
-          OnSubmitEditing = {() => { this.secondTextInput.current.focus(); }}
-          
-        />
-        <TextInput
-        style={styles.Input}
-          placeholder="Enter your password..."
-          placeholderTextColor = "rgba(255,255,255,0.7)"
-          label="Password"
-          autoCapitalize = "none"
-          autoCorrect = {false}
-          onChangeText={password => this.setState({ password })}
-          secureTextEntry={true}
-          ref={(input) => { this.secondTextInput = input; }}
-          returnKeyType = "go"
-        />
-        {this.renderButton()}
+          <TextInput
+            style={styles.Input}
+            placeholder="Enter your username..."
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            label="username"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={username => this.setState({ username })}
+            secureTextEntry={false}
+            returnKeyType="next"
+            OnSubmitEditing={() => {
+              this.secondTextInput.current.focus();
+            }}
+          />
+          <TextInput
+            style={styles.Input}
+            placeholder="Enter your password..."
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            label="Password"
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={password => this.setState({ password })}
+            secureTextEntry={true}
+            ref={input => {
+              this.secondTextInput = input;
+            }}
+            returnKeyType="go"
+          />
+          {this.renderButton()}
         </KeyboardAvoidingView>
       </View>
     );
@@ -199,15 +202,15 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   Input: {
-    backgroundColor : 'rgba(255,255,255,0.2)',
-    marginBottom : 20,
-    color : "#FFF",
-    paddingHorizontal : 20,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 20,
+    color: '#FFF',
+    paddingHorizontal: 20,
   },
-  button : {
-    paddingVertical : 10
+  button: {
+    paddingVertical: 10,
   },
-  formContainer : {
-    flex : 1
-  }
+  formContainer: {
+    flex: 1,
+  },
 });

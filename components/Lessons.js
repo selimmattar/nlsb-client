@@ -1,20 +1,53 @@
 import React from 'react';
+<<<<<<< HEAD
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Dimensions,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
+import { List, ListItem, SearchBar } from 'react-native-elements';
+
+const data = [
+  { key: 'A' },
+  { key: 'B' },
+  { key: 'C' },
+  { key: 'D' },
+  { key: 'E' },
+  { key: 'F' },
+  { key: 'G' },
+  { key: 'H' },
+  { key: 'I' },
+  { key: 'J' },
+  { key: 'K' },
+  { key: 'L' },
+  { key: 'M' },
+  { key: 'N' },
+  // { key: 'K' },
+  // { key: 'L' },
+=======
 import { StyleSheet, Text, View, FlatList, Dimensions, TouchableHighlight } from 'react-native';
 import { List, ListItem, SearchBar } from "react-native-elements";
+import  LessonItem  from "./LessonItem";
 
 const data = [
   { key: 'A' }, { key: 'B' }, { key: 'C' }, { key: 'D' }, { key: 'E' }, { key: 'F' }, 
   { key: 'G' }, { key: 'H' }, { key: 'I' }, { key: 'J' },
   { key: 'K' }, { key: 'L' }, { key: 'M' }, { key: 'N' },
-  // { key: 'K' },
-  // { key: 'L' },
+>>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
 ];
 
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
 
-  let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
-  while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
+  let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+  while (
+    numberOfElementsLastRow !== numColumns &&
+    numberOfElementsLastRow !== 0
+  ) {
     data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
     numberOfElementsLastRow++;
   }
@@ -23,18 +56,41 @@ const formatData = (data, numColumns) => {
 };
 
 const numColumns = 3;
-export default class Lessons extends React.Component {
 
+/*class Item extends React.Component {
+  _onPress = () => {
+    this.props.onPressItem(this.props.id);
+  };
+
+  render() {
+    const textColor = this.props.selected ? 'red' : 'black';
+
+    /*if (props.empty === true) {
+      return <View style={[styles.item, styles.itemInvisible]} />;
+    }*/
+
+    /*return (
+      <TouchableHighlight onPress={this._onPress}>
+        <View style={styles.item} >
+    <Text style={{color: textColor}} /*style={styles.itemText} > {this.props.id} </Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+}*/
+
+export default class Lessons extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      selected: (new Map(): Map<string, boolean>),
       loading: false,
       data: [],
       page: 1,
       seed: 1,
       error: null,
-      refreshing: false
+      refreshing: false,
     };
   }
 
@@ -43,24 +99,24 @@ export default class Lessons extends React.Component {
       {
         page: 1,
         seed: this.state.seed + 1,
-        refreshing: true
+        refreshing: true,
       },
       () => {
         //this.makeRemoteRequest();
-        console.log("refreshing");
-      }
+        console.log('refreshing');
+      },
     );
   };
 
   handleLoadMore = () => {
     this.setState(
       {
-        page: this.state.page + 1
+        page: this.state.page + 1,
       },
       () => {
-        console.log("loading more");
+        console.log('loading more');
         //this.makeRemoteRequest();
-      }
+      },
     );
   };
 
@@ -69,9 +125,9 @@ export default class Lessons extends React.Component {
       <View
         style={{
           height: 1,
-          width: "86%",
-          backgroundColor: "#CED0CE",
-          marginLeft: "14%"
+          width: '86%',
+          backgroundColor: '#CED0CE',
+          marginLeft: '14%',
         }}
       />
     );
@@ -89,7 +145,7 @@ export default class Lessons extends React.Component {
         style={{
           paddingVertical: 20,
           borderTopWidth: 1,
-          borderColor: "#CED0CE"
+          borderColor: '#CED0CE',
         }}
       >
         <ActivityIndicator animating size="large" />
@@ -97,41 +153,63 @@ export default class Lessons extends React.Component {
     );
   };
 
+<<<<<<< HEAD
   _onPress = () => {
     console.log('selected');
     this.props.onPressItem(this.props.id);
   };
 
-  _onPressItem = (id: string) => {
+  _onPressItem = (id) => {
+=======
+  _onPressItem = (id: string, item, index) => {
+    console.log(id);
+    this.props.navigation.navigate('ExerciceFillInTheBlanks');
+>>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
     // updater functions are preferred for transactional updates
-    this.setState((state) => {
+    this.setState(state => {
       // copy the map rather than modifying state.
       const selected = new Map(state.selected);
       selected.set(id, !selected.get(id)); // toggle
-      return {selected};
+      return { selected };
     });
-    console.log('selected');
   };
 
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
+<<<<<<< HEAD
+    <TouchableOpacity
+=======
+    /*
     <TouchableHighlight
+>>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
       onPress={() => this._onPress(item)}
       //onShowUnderlay={separators.highlight}
       //onHideUnderlay={separators.unhighlight}
-      >
-      <View style={{backgroundColor: 'white'}}>
+    >
+      <View style={{ backgroundColor: 'white' }}>
         <Text>{item.title}</Text>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>;
     return (
+<<<<<<< HEAD
+      <View style={styles.item}>
+=======
       <View
-        style={styles.item}
-      >
+        style={styles.item}>
+>>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
         <Text style={styles.itemText}>{item.key}</Text>
       </View>
+    );*/
+    
+    return (
+      <LessonItem
+        id={item.key}
+        onPressItem={this._onPressItem}
+        selected={!!this.state.selected.get(item.id)}
+        key={item.key}
+      />
     );
   };
 
@@ -149,8 +227,23 @@ export default class Lessons extends React.Component {
         refreshing={this.state.refreshing}
         onEndReached={this.handleLoadMore}
         onEndReachedThreshold={50}
-        
       />
+    );
+  }
+}
+class MyListItem extends React.PureComponent {
+  _onPress = () => {
+    this.props.onPressItem(this.props.id);
+  };
+
+  render() {
+    const textColor = this.props.selected ? 'red' : 'black';
+    return (
+      <TouchableOpacity onPress={this._onPress}>
+        <View>
+          <Text style={{ color: textColor }}>{this.props.title}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -166,7 +259,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     margin: 1,
-    height: Dimensions.get('window').width / numColumns, // approximate a square
+    width: Dimensions.get('window').width / numColumns, // approximate a square
+    height: Dimensions.get('window').width / numColumns,
   },
   itemInvisible: {
     backgroundColor: 'transparent',

@@ -1,6 +1,6 @@
 class MySingleton{
     static getId (){
-        return '192.168.1.21';
+        return '172.16.208.52';
     }
 }
 export default MySingleton;

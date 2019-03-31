@@ -1,5 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
 import {
   StyleSheet,
   Text,
@@ -7,9 +6,9 @@ import {
   FlatList,
   Dimensions,
   TouchableHighlight,
-  TouchableOpacity,
 } from 'react-native';
 import { List, ListItem, SearchBar } from 'react-native-elements';
+import LessonItem from './LessonItem';
 
 const data = [
   { key: 'A' },
@@ -26,18 +25,6 @@ const data = [
   { key: 'L' },
   { key: 'M' },
   { key: 'N' },
-  // { key: 'K' },
-  // { key: 'L' },
-=======
-import { StyleSheet, Text, View, FlatList, Dimensions, TouchableHighlight } from 'react-native';
-import { List, ListItem, SearchBar } from "react-native-elements";
-import  LessonItem  from "./LessonItem";
-
-const data = [
-  { key: 'A' }, { key: 'B' }, { key: 'C' }, { key: 'D' }, { key: 'E' }, { key: 'F' }, 
-  { key: 'G' }, { key: 'H' }, { key: 'I' }, { key: 'J' },
-  { key: 'K' }, { key: 'L' }, { key: 'M' }, { key: 'N' },
->>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
 ];
 
 const formatData = (data, numColumns) => {
@@ -69,7 +56,7 @@ const numColumns = 3;
       return <View style={[styles.item, styles.itemInvisible]} />;
     }*/
 
-    /*return (
+/*return (
       <TouchableHighlight onPress={this._onPress}>
         <View style={styles.item} >
     <Text style={{color: textColor}} /*style={styles.itemText} > {this.props.id} </Text>
@@ -153,18 +140,9 @@ export default class Lessons extends React.Component {
     );
   };
 
-<<<<<<< HEAD
-  _onPress = () => {
-    console.log('selected');
-    this.props.onPressItem(this.props.id);
-  };
-
-  _onPressItem = (id) => {
-=======
   _onPressItem = (id: string, item, index) => {
     console.log(id);
     this.props.navigation.navigate('ExerciceFillInTheBlanks');
->>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
     // updater functions are preferred for transactional updates
     this.setState(state => {
       // copy the map rather than modifying state.
@@ -178,12 +156,8 @@ export default class Lessons extends React.Component {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
-<<<<<<< HEAD
-    <TouchableOpacity
-=======
     /*
     <TouchableHighlight
->>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
       onPress={() => this._onPress(item)}
       //onShowUnderlay={separators.highlight}
       //onHideUnderlay={separators.unhighlight}
@@ -193,16 +167,12 @@ export default class Lessons extends React.Component {
       </View>
     </TouchableOpacity>;
     return (
-<<<<<<< HEAD
-      <View style={styles.item}>
-=======
       <View
         style={styles.item}>
->>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
         <Text style={styles.itemText}>{item.key}</Text>
       </View>
     );*/
-    
+
     return (
       <LessonItem
         id={item.key}

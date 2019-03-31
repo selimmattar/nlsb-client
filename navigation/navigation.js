@@ -11,18 +11,12 @@ import Settings from '../components/Settings';
 import Lessons from '../components/Lessons';
 import AuthLoading from '../components/AuthLoading';
 import LoginForm from '../components/LoginForm';
-<<<<<<< HEAD
-import SiriWave from '../components/SiriWave';
-import HomePage from '../components/HomePage';
-import TabNavigator from '../components/TabNavigator';
-import Exercise from '../components/Exercise';
-=======
 import SiriWave from '../components/SiriWave'
 import HomePage from "../components/HomePage";
 import TabNavigator from "../components/TabNavigator"
 import FillInTheBlanks from "../components/FillInTheBlanks"
+import Exercise from "../components/Exercise"
 
->>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3
 const App = createMaterialTopTabNavigator(
   {
     //Chat : Chat,
@@ -65,20 +59,6 @@ const Auth = createStackNavigator(
   },
 );
 
-<<<<<<< HEAD
-export default createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoading,
-      App: App,
-      Auth: Auth,
-    },
-    {
-      initialRouteName: 'AuthLoading',
-    },
-  ),
-);
-=======
 const ExerciceFillInTheBlanks = createStackNavigator(
   {
     FillInTheBlanks: {
@@ -109,4 +89,3 @@ export default createAppContainer(createSwitchNavigator(
     initialRouteName: 'AuthLoading',
   }
 ));
->>>>>>> c5bfc20df940650ea7f59aa2fdbaefdee293b3a3

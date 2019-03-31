@@ -23,7 +23,7 @@ export default class Exercise extends React.Component {
   componentDidMount() {
     console.log('component did mount ! ');
     var content = this.state.content;
-    this.prepareExercise(content);
+    this.prepareQCM(content);
     // this.prepareQCM();
   }
   prepareExercise(content) {

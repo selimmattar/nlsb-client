@@ -11,11 +11,8 @@ import {
   TouchableOpacity,
   ActivityIndicator, Button
 } from 'react-native';
-import firebase from 'firebase';
-import { Input } from './common/input';
-//import { Button } from './common/Button';
-import { Spinner } from './common/Spinner';
 import axios from 'axios';
+import MySingleton from './Singleton/MySingleton';
 import data from '../assets/anim/data.json';
 import LottieView from 'lottie-react-native';
 const EXAMPLES = [
@@ -66,7 +63,7 @@ export default class LoginForm extends React.Component {
             //this.props.login(this.state.token);
 
             axios
-              .post('http://192.168.1.14:4000/users/authenticate', {
+              .post('http://'+MySingleton.getId()+':4000/users/authenticate', {
                 username: this.state.username,
                 password: this.state.password,
               })

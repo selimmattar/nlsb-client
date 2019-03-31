@@ -14,6 +14,7 @@ import LoginForm from '../components/LoginForm';
 import SiriWave from '../components/SiriWave'
 import HomePage from "../components/HomePage";
 import TabNavigator from "../components/TabNavigator"
+import FillInTheBlanks from "../components/FillInTheBlanks"
 
 const App = createMaterialTopTabNavigator(
   {
@@ -60,11 +61,31 @@ const Auth = createStackNavigator(
   },
 );
 
+const ExerciceFillInTheBlanks = createStackNavigator(
+  {
+    FillInTheBlanks: {
+      screen: FillInTheBlanks,
+
+      navigationOptions: {
+        title: 'FillInTheBlanks',
+      },
+    } ,
+
+  },
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    },
+  },
+);
+
 export default createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoading,
     App: App,
     Auth: Auth,
+    ExerciceFillInTheBlanks: ExerciceFillInTheBlanks
   },
   {
     initialRouteName: 'AuthLoading',

@@ -123,7 +123,7 @@ export default class Lessons extends React.Component {
     this.props.onPressItem(this.props.id);
   };
 
-  _onPressItem = (id: string) => {
+  _onPressItem = (id) => {
     // updater functions are preferred for transactional updates
     this.setState(state => {
       // copy the map rather than modifying state.
@@ -134,7 +134,7 @@ export default class Lessons extends React.Component {
     console.log('selected');
   };
 
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
@@ -169,6 +169,22 @@ export default class Lessons extends React.Component {
         onEndReached={this.handleLoadMore}
         onEndReachedThreshold={50}
       />
+    );
+  }
+}
+class MyListItem extends React.PureComponent {
+  _onPress = () => {
+    this.props.onPressItem(this.props.id);
+  };
+
+  render() {
+    const textColor = this.props.selected ? 'red' : 'black';
+    return (
+      <TouchableOpacity onPress={this._onPress}>
+        <View>
+          <Text style={{ color: textColor }}>{this.props.title}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }

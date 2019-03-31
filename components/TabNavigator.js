@@ -2,32 +2,31 @@ import React from 'react';
 import { StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
 //import Chat from './Chat'
-import Stats from './Stats'
-import Settings from './Settings'
-import Lessons from './Lessons'
-
+import Stats from './Stats';
+import Settings from './Settings';
+import Lessons from './Lessons';
+import Exercise from './Exercise';
 const TabNavigator = createMaterialTopTabNavigator(
   {
     //Chat : Chat,
-    Lessons : Lessons,
-    Stats : Stats,
-    Settings : Settings
+    Lessons: Lessons,
+    Stats: Exercise,
+    Settings: Settings,
   },
   {
-    tabBarOptions : {
-      inactiveTintColor : 'white',
-      activeTintColor : 'white',
-      activeBackgroundColor : 'white',
+    tabBarOptions: {
+      inactiveTintColor: 'white',
+      activeTintColor: 'white',
+      activeBackgroundColor: 'white',
       labelStyle: {
         fontSize: 10,
-        fontStyle: 'normal'
+        fontStyle: 'normal',
       },
-      style : {
-        backgroundColor : 'blue'
-      }
-
-    }
-  }
-)
+      style: {
+        backgroundColor: 'blue',
+      },
+    },
+  },
+);
 
 export default TabNavigator;

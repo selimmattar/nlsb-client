@@ -64,14 +64,13 @@ export default class LoginForm extends React.Component {
             //this.props.login(this.state.token);
 
             axios
-<<<<<<< HEAD
-              .post('http://192.168.1.18:4000/users/authenticate', {
-=======
-              .post('http://'+MySingleton.getId()+':4000/users/authenticate', {
->>>>>>> 2cf7adbbdd101babe24b0da031ebc596af392564
-                username: this.state.username,
-                password: this.state.password,
-              })
+              .post(
+                'http://' + MySingleton.getId() + ':4000/users/authenticate',
+                {
+                  username: this.state.username,
+                  password: this.state.password,
+                },
+              )
               .then(res => {
                 const { token, ...currentUser } = res.data;
                 this.setState({ currentUser });

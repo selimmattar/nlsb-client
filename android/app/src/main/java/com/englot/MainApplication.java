@@ -3,6 +3,8 @@ package com.englot;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.wenkesj.voice.VoicePackage;
+import net.no_mad.tts.TextToSpeechPackage;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import ui.siriwave.RNSiriWaveViewPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VoicePackage(),
+            new TextToSpeechPackage(),
             new SvgPackage(),
             new VectorIconsPackage(),
             new RNSiriWaveViewPackage(),

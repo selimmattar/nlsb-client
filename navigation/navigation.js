@@ -11,6 +11,7 @@ import Settings from '../components/Settings';
 import Lessons from '../components/Lessons';
 import AuthLoading from '../components/AuthLoading';
 import LoginForm from '../components/LoginForm';
+import SignUp from '../components/SignUp';
 import SiriWave from '../components/SiriWave'
 import HomePage from "../components/HomePage";
 import TabNavigator from "../components/TabNavigator";
@@ -48,7 +49,14 @@ const Auth = createStackNavigator(
       screen: LoginForm,
 
       navigationOptions: {
-        title: 'Login',
+        title: 'LoginForm',
+      },
+    },
+    SignUp: {
+      screen: SignUp,
+
+      navigationOptions: {
+        title: 'SignUp',
       },
     },
   },

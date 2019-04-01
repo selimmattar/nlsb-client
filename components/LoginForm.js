@@ -96,17 +96,6 @@ export default class LoginForm extends React.Component {
                 console.log(err);
                 this.setState({ isLoadingComplete: true });
               });
-            /* firebase
-              .auth()
-              .signInWithusernameAndPassword(this.state.username, this.state.password)
-              .then(() => {
-                this.setState({ isLoadingComplete: true });
-                console.log('Hoooraaay :D !');
-              })
-              .catch(error => {
-                console.log(error);
-                this.setState({ isLoadingComplete: true });
-              });*/
           }}
         />
       );
@@ -122,7 +111,8 @@ export default class LoginForm extends React.Component {
           style={{
             width: 400,
             height: 400,
-            marginTop: 50,
+            marginBottom: 20,
+            marginTop: 20,
             flex: 1,
           }}
           source={data}
@@ -161,7 +151,15 @@ export default class LoginForm extends React.Component {
             returnKeyType="go"
           />
           {this.renderButton()}
+          <Text style={{justifyContent: 'center', 
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: 0}
+      }
+      onPress={() => this.props.navigation.navigate('SignUp')}
+      >Don't have an account ? Create One</Text>
         </KeyboardAvoidingView>
+
       </View>
     );
   }
@@ -186,7 +184,7 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 3,
+    flex: 1,
     backgroundColor: '#0052A5',
     //padding: 20,
     justifyContent: 'center',

@@ -13,16 +13,17 @@ import AuthLoading from '../components/AuthLoading';
 import LoginForm from '../components/LoginForm';
 import SiriWave from '../components/SiriWave'
 import HomePage from "../components/HomePage";
-import TabNavigator from "../components/TabNavigator"
-import FillInTheBlanks from "../components/FillInTheBlanks"
-import Exercise from "../components/Exercise"
+import TabNavigator from "../components/TabNavigator";
+import FillInTheBlanks from "../components/FillInTheBlanks";
+import Exercise from "../components/Exercise";
+import ExerciceQCM from "../components/ExerciceQCM";
 
 const App = createMaterialTopTabNavigator(
   {
     //Chat : Chat,
     Lessons: Lessons,
     SiriWave: SiriWave,
-    Stats: Exercise,
+    Stats: ExerciceQCM,
     Settings: Settings,
   },
   {

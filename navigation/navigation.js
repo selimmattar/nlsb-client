@@ -16,14 +16,14 @@ import HomePage from "../components/HomePage";
 import TabNavigator from "../components/TabNavigator";
 import FillInTheBlanks from "../components/FillInTheBlanks";
 import Exercise from "../components/Exercise";
-import ExerciceQCM from "../components/ExerciceQCM";
+import ExerciceQuestions from "../components/ExerciceQuestions";
 
 const App = createMaterialTopTabNavigator(
   {
     //Chat : Chat,
     Lessons: Lessons,
     SiriWave: SiriWave,
-    Stats: ExerciceQCM,
+    Stats: ExerciceQuestions,
     Settings: Settings,
   },
   {

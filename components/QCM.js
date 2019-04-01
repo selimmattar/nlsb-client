@@ -19,10 +19,15 @@ class QCMItem extends React.Component {
   }
 
   check = () => {
-    if(this.state.isChecked){
+    console.log(this.props.answer);
+
+    if(this.state.isChecked) {
       this.setState({isChecked:false})
     } else {
-      this.setState({isChecked:true})
+      if (this.props.answer === this.props.id) {
+        this.props.handleCorrect();
+      }
+      this.setState({isChecked:true});
     }
   }
 
@@ -55,6 +60,10 @@ class QCM extends React.Component {
     };*/
   }
 
+  handleCorrect = () => {
+    console.log('answerlist');
+  };
+
   render() {
     return (
       <View  style={styles.container}>
@@ -65,6 +74,8 @@ class QCM extends React.Component {
           renderItem={({ item }) => (
             <QCMItem
               id={item.key}
+              answer={this.props.answer}
+              handleCorrect={this.handleCorrect}
             />
           )}
           keyExtractor={item => item.key}

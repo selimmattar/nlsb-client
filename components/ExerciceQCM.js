@@ -30,13 +30,16 @@ class ExerciceQCM extends React.Component {
     super(props);
 
     this.state = {
-      data: [
-        { key: 'A' },
-        { key: 'B' },
-        { key: 'C' }
-      ]
+      score : 0,
     };
   }
+
+  handleCorrect = () => {
+    console.log('answer');
+    this.setState(
+      { score: this.state.score + 1 }
+    );
+  };
 
   render() {
     return (
@@ -44,14 +47,20 @@ class ExerciceQCM extends React.Component {
       <QCM 
         data = {data1}
         question = 'question1'
+        answer = 'A'
+        handleCorrect = {this.handleCorrect}
       />
       <QCM 
         data = {data2}
         question = 'question2'
+        answer = 'D'
+        handleCorrect = {this.handleCorrect}
       />
       <QCM 
         data = {data3}
         question = 'question13'
+        answer = 'G'
+        handleCorrect = {this.handleCorrect}
       />
       <TouchableOpacity style={[styles.button]} onPress={() => {
             console.log('submit');

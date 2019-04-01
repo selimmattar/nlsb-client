@@ -5,7 +5,7 @@ import {
   Text,
   ImageBackground,
   Image,
-  AsyncStorage,
+  //AsyncStorage,
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
@@ -16,6 +16,8 @@ import axios from 'axios';
 import MySingleton from './Singleton/MySingleton';
 import data from '../assets/anim/data.json';
 import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 const EXAMPLES = [
   { language: 'en', text: 'Hello world!' },
   { language: 'es', text: 'Hola mundo' },
@@ -83,10 +85,7 @@ export default class LoginForm extends React.Component {
                   'currentUsername',
                   this.state.currentUser.username,
                 );
-                AsyncStorage.setItem(
-                  'currentPassword',
-                  this.state.currentUser.password,
-                );
+                
                 //this.setState({ isLoadingComplete: true });
                 console.log('connected');
                 this.props.navigation.navigate('App');

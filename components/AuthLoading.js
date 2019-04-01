@@ -2,12 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import {
   ActivityIndicator,
-  AsyncStorage,
+  //AsyncStorage,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
 import MySingleton from './Singleton/MySingleton';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class AuthLoading extends React.Component {
   state = {
@@ -31,7 +32,7 @@ class AuthLoading extends React.Component {
           console.log('not null');
           console.log(response[0][1]);
           axios
-            .post('http://' + MySingleton.getIp() + ':4000/users/getByIds', {
+            .post('http://' + MySingleton.getId() + ':4000/users/getByIds', {
               _id: response[0][1],
             })
             .then(res => {

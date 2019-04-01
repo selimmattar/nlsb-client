@@ -15,6 +15,7 @@ import SiriWave from '../components/SiriWave'
 import HomePage from "../components/HomePage";
 import TabNavigator from "../components/TabNavigator"
 import FillInTheBlanks from "../components/FillInTheBlanks"
+import Exercise from "../components/Exercise"
 
 const App = createMaterialTopTabNavigator(
   {

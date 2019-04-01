@@ -25,6 +25,8 @@ const data = [
   { key: 'L' },
   { key: 'M' },
   { key: 'N' },
+  // { key: 'K' },
+  // { key: 'L' },
 ];
 
 const formatData = (data, numColumns) => {

@@ -18,9 +18,12 @@ import FillInTheBlanks from "../components/FillInTheBlanks";
 import Exercise from "../components/Exercise";
 import ExerciceQuestions from "../components/ExerciceQuestions";
 
+import ExerciceQCM from '../components/ExerciceQCM';
+import Chat from '../components/Chat';
+import SignUp from '../components/SignUp'
 const App = createMaterialTopTabNavigator(
   {
-    //Chat : Chat,
+    Chat: Chat,
     Lessons: Lessons,
     SiriWave: SiriWave,
     Stats: ExerciceQuestions,
@@ -48,7 +51,14 @@ const Auth = createStackNavigator(
       screen: LoginForm,
 
       navigationOptions: {
-        title: 'Login',
+        title: 'LoginForm',
+      },
+    },
+    SignUp: {
+      screen: SignUp,
+
+      navigationOptions: {
+        title: 'SignUp',
       },
     },
   },
@@ -68,8 +78,7 @@ const ExerciceFillInTheBlanks = createStackNavigator(
       navigationOptions: {
         title: 'FillInTheBlanks',
       },
-    } ,
-
+    },
   },
   {
     headerMode: 'none',
@@ -79,14 +88,16 @@ const ExerciceFillInTheBlanks = createStackNavigator(
   },
 );
 
-export default createAppContainer(createSwitchNavigator(
-  {
-    AuthLoading: AuthLoading,
-    App: App,
-    Auth: Auth,
-    ExerciceFillInTheBlanks: ExerciceFillInTheBlanks
-  },
-  {
-    initialRouteName: 'AuthLoading',
-  }
-));
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      AuthLoading: AuthLoading,
+      App: App,
+      Auth: Auth,
+      ExerciceFillInTheBlanks: ExerciceFillInTheBlanks,
+    },
+    {
+      initialRouteName: 'AuthLoading',
+    },
+  ),
+);

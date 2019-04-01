@@ -2,12 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import {
   ActivityIndicator,
-  AsyncStorage,
+  //AsyncStorage,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
 import MySingleton from './Singleton/MySingleton';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class AuthLoading extends React.Component {
   state = {

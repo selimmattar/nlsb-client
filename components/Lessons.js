@@ -6,10 +6,9 @@ import {
   FlatList,
   Dimensions,
   TouchableHighlight,
-  TouchableOpacity,
 } from 'react-native';
 import { List, ListItem, SearchBar } from 'react-native-elements';
-import LessonItem from './LessonItem'
+import LessonItem from './LessonItem';
 
 const data = [
   { key: 'A' },
@@ -59,7 +58,7 @@ const numColumns = 3;
       return <View style={[styles.item, styles.itemInvisible]} />;
     }*/
 
-    /*return (
+/*return (
       <TouchableHighlight onPress={this._onPress}>
         <View style={styles.item} >
     <Text style={{color: textColor}} /*style={styles.itemText} > {this.props.id} </Text>
@@ -175,7 +174,7 @@ export default class Lessons extends React.Component {
         <Text style={styles.itemText}>{item.key}</Text>
       </View>
     );*/
-    
+
     return (
       <LessonItem
         id={item.key}

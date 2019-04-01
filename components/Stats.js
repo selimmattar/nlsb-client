@@ -5,7 +5,7 @@ class Stats extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      <Text>Stats</Text>
+        <Text>Stats</Text>
       </View>
     );
   }
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-  }
+  },
 });
 
 export default Stats;

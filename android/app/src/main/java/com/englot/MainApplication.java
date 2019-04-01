@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.wenkesj.voice.VoicePackage;
+import net.no_mad.tts.TextToSpeechPackage;
+import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import ui.siriwave.RNSiriWaveViewPackage;
 import de.innfactory.apiai.RNApiAiPackage;
@@ -30,6 +33,9 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new AsyncStoragePackage(),
+            new VoicePackage(),
+            new TextToSpeechPackage(),
+            new SvgPackage(),
             new VectorIconsPackage(),
             new RNSiriWaveViewPackage(),
             new RNApiAiPackage(),

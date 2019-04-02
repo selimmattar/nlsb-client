@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
 
 import RadioGroup from 'react-native-radio-buttons-group';
 
@@ -41,14 +41,14 @@ export default class Vertical extends Component {
   render() {
     /*this.props.data.choices.map((e) => {e.selected = false});*/
     let selectedButton = this.props.data.choices.find(e => e.selected == true);
-    //this.props.data.choices.map((e) => {e.disabled = this.props.disabled});
+    this.props.data.choices.map((e) => {e.color = '#00a8ff'});
       selectedButton = selectedButton /*selectedButton.value : this.props.data.choices[0].label;*/
     return (
       <View style={styles.container}>
-        <Text>
+        <Text style={styles.question}>
           {this.props.data.question}
         </Text>
-        <RadioGroup radioButtons={this.props.data.choices} onPress={this.onPress} />
+        <RadioGroup radioButtons={this.props.data.choices} style={styles.radioButtons} onPress={this.onPress} />
       </View>
     );
   }
@@ -56,8 +56,20 @@ export default class Vertical extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    width: Dimensions.get('window').width,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#dcdde1',
+    borderRadius: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    padding: 10,
+    marginTop: 10,
   },
+  question: {
+    textAlign: 'center',
+    color: '#718093',
+    fontSize: 16,
+    //fontWeight: 'bold'
+    //paddingStart: 5,
+  }
 });

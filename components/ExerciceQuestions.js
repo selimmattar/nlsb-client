@@ -3,6 +3,9 @@ import { Text, View, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Anima
 import Question from './Question';
 import RadioGroup from 'react-native-radio-buttons-group';
 
+import Modal from 'react-native-modalbox';
+//import Slider from 'react-native-slider';
+
 var {width, height} = Dimensions.get('window');
 
 const data1 = {
@@ -25,21 +28,52 @@ const data2 = {
   answer: 'C',
   i:2
 };
+const data3 = {
+  question: 'question3',
+  choices: [
+    { key: 'A', label: 'A', value:'A' },
+    { key: 'B', label: 'B', value:'B' },
+    { key: 'C', label: 'C', value:'C' },
+  ],
+  answer: 'B',
+  i:3
+};
 
 export default class Vertical extends Component {
-  state = {
-    rslt:0,
-    scoreTab : [ 0, 0],
-    showResult: false,
-    disabled: false,
-    fadeValue: new Animated.Value(1),
-    appearValue: new Animated.Value(0),
-    springValue: new Animated.Value(0.3),
-    yValue: new Animated.Value(0),
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      isOpen: false,
+      isDisabled: false,
+      swipeToClose: true,
+      sliderValue: 0.3,
+      rslt:0,
+      scoreTab : [ 0, 0],
+      showResult: false,
+      disabled: false,
+      fadeValue: new Animated.Value(1),
+      appearValue: new Animated.Value(0),
+      springValue: new Animated.Value(0.3),
+      yValue: new Animated.Value(0),
+    };
+  }
 
   // update state
   //onPress = data => this.setState({ data });
+
+  onClose() {
+    console.log('Modal just closed');
+    this.props.navigation.navigate('Lessons');
+  }
+
+  onOpen() {
+    console.log('Modal just opened');
+  }
+
+  onClosingState(state) {
+    console.log('the open/close of the swipeToClose just changed');
+  }
 
   fadeAnimation = () => {
     Animated.timing(this.state.fadeValue, {
@@ -68,9 +102,10 @@ export default class Vertical extends Component {
   }
   calculateResult = () => {
     //if (!this.state.loading) return null;
-    this.fadeAnimation();
+    //this.fadeAnimation();
     this.appearAnimation();
     this.springAnimation();
+    
   var somme=0;
     this.state.scoreTab.forEach(element => {
       somme+=element;
@@ -79,6 +114,9 @@ export default class Vertical extends Component {
       rslt : somme,
       disabled : true,
        })
+      this.refs.modal4.open();
+
+      //this.props.navigation.navigate('Lessons', {text: });
   };
 
   updateState = (selectedAnswer, correctAnswer, i) => {
@@ -147,12 +185,14 @@ export default class Vertical extends Component {
         <Question
           data = {data1}
           updateState={this.updateState}
-          //disabled = {this.state.disabled}
         />
         <Question
           data = {data2}
           updateState={this.updateState}
-          //disabled = {this.state.disabled}
+        />
+        <Question
+          data = {data3}
+          updateState={this.updateState}
         />
         <View style={styles.buttonSection}>
           <TouchableOpacity style={[styles.button]} disabled={this.state.disabled} onPress={() => this.calculateResult() } >
@@ -161,12 +201,19 @@ export default class Vertical extends Component {
         </View>
       </Animated.View>
         
-      <Animated.View style={[styles.animationViewRes, {opacity: this.state.appearValue}, {left: this.state.yValue}]} >
+      
+
+      <Modal style={[styles.modal, styles.modal4]}  position={"bottom"} ref={"modal4"} onClosed={this.onClose.bind(this)}>
+          {/*<Text style={styles.text}>Modal on bottom with backdrop</Text>*/}
+          <Animated.View style={[styles.animationViewRes, {opacity: this.state.appearValue}, {left: this.state.yValue}]} >
       {this.renderResult1()}
       {this.renderResult2()}
       {this.renderResult3()}
         {/*<Text> score : {this.state.rslt} </Text>*/}
       </Animated.View>
+          {/*<Slider style={{width: 200}} value={this.state.sliderValue} onValueChange={(value) => this.setState({sliderValue: value})} />
+        */}</Modal>
+
         
       
       </ScrollView>
@@ -179,9 +226,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginStart: 10,
-    marginEnd: 10,
+    justifyContent: 'center'
   },
   cnt: {
     flex: 1,
@@ -194,6 +239,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10
   },
+
+  wrapper: {
+    flexDirection: 'row',
+    paddingTop: 50,
+    flex: 1
+  },
+  modal: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modal4: {
+    height: 300
+  },
+
   buttonSection: {
     justifyContent: 'center',
     alignItems: 'center'

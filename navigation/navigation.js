@@ -2,6 +2,7 @@ import {
   createAppContainer,
   createSwitchNavigator,
   createStackNavigator,
+  StackNavigator,
 } from 'react-navigation';
 import { StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
@@ -23,8 +24,17 @@ import Chat from '../components/Chat';
 import SignUp from '../components/SignUp'
 const App = createMaterialTopTabNavigator(
   {
-    Chat: Chat,
-    Lessons: Lessons,
+    //Chat: Chat,
+    Lessons: createStackNavigator({
+      Lessons: Lessons,
+      ExerciceQuestions: ExerciceQuestions
+    },
+    {
+      headerMode: 'none',
+      navigationOptions: {
+        headerVisible: false,
+      },
+    },),
     SiriWave: SiriWave,
     Stats: ExerciceQuestions,
     Settings: Settings,

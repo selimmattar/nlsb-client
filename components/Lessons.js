@@ -22,9 +22,9 @@ const data = [
   { key: 'I' },
   { key: 'J' },
   { key: 'K' },
-  { key: 'L' },
-  { key: 'M' },
-  { key: 'N' },
+  //{ key: 'L' },
+  //{ key: 'M' },
+  //{ key: 'N' },
   // { key: 'K' },
   // { key: 'L' },
 ];
@@ -144,7 +144,7 @@ export default class Lessons extends React.Component {
 
   _onPressItem = (id: string, item, index) => {
     console.log(id);
-    this.props.navigation.navigate('ExerciceFillInTheBlanks');
+    this.props.navigation.navigate('ExerciceQuestions', {id: id});
     // updater functions are preferred for transactional updates
     this.setState(state => {
       // copy the map rather than modifying state.
@@ -192,8 +192,8 @@ export default class Lessons extends React.Component {
         style={styles.container}
         renderItem={this.renderItem}
         numColumns={numColumns}
-        ItemSeparatorComponent={this.renderSeparator}
-        ListHeaderComponent={this.renderHeader}
+        //ItemSeparatorComponent={this.renderSeparator}
+        //ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
         onRefresh={this.handleRefresh}
         refreshing={this.state.refreshing}
@@ -226,13 +226,16 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   item: {
-    backgroundColor: '#4D243D',
+    borderRadius: 5,
+    borderWidth:5,
+    borderColor: 'transparent',
+    backgroundColor: '#fbc531',
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
     margin: 1,
-    width: Dimensions.get('window').width / numColumns, // approximate a square
-    height: Dimensions.get('window').width / numColumns,
+    width: Dimensions.get('window').width / numColumns - 5, // approximate a square
+    height: Dimensions.get('window').width / numColumns -5 ,
   },
   itemInvisible: {
     backgroundColor: 'transparent',

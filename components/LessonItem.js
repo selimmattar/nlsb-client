@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Dimensions, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Dimensions, TouchableHighlight, Image } from 'react-native';
 import { List, ListItem, SearchBar } from "react-native-elements";
 
 
@@ -27,7 +27,22 @@ export default class LessonItem extends React.Component {
     return (
       <TouchableHighlight onPress={this._onPress}>
         <View style={styles.item} >
-          <Text style={{color: textColor}} /*style={styles.itemText} */> {this.props.id} </Text>
+          <Text style={styles.itemText} /*style={styles.itemText} */> {this.props.id} </Text>
+          {/*<View style={styles.imagesContainer} >
+            <Image
+              source={require('../assets/images/star.png')}
+              style={styles.imageView}>
+            </Image>
+            <Image
+              source={require('../assets/images/star.png')}
+              style={styles.imageView}>
+            </Image>
+            <Image
+              source={require('../assets/images/star.png')}
+              style={styles.imageView}>
+            </Image>
+    </View>*/}
+         
         </View>
       </TouchableHighlight>
     );
@@ -42,10 +57,12 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   item: {
-    backgroundColor: '#4D243D',
+    borderRadius: 40,
+    backgroundColor: '#44bd32',
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+    padding: 2,
     margin: 1,
     width: Dimensions.get('window').width / numColumns, // approximate a square
     height: Dimensions.get('window').width / numColumns,
@@ -54,6 +71,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   itemText: {
+    fontWeight: 'bold',
     color: '#fff',
+  },
+  imagesContainer : {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  imageView: {
+    width: 30,
+    height: 30,
+    backgroundColor: 'transparent',
   },
 });

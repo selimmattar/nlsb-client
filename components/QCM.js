@@ -1,51 +1,46 @@
-import React from "react";
-import { StyleSheet,
+import React from 'react';
+import {
+  StyleSheet,
   Text,
   View,
   FlatList,
   Dimensions,
   TouchableHighlight,
-  TouchableOpacity } from "react-native";
-import { List, ListItem, SearchBar, CheckBox } from "react-native-elements";
+  TouchableOpacity,
+} from 'react-native';
+import { List, ListItem, SearchBar, CheckBox } from 'react-native-elements';
 
 class QCMItem extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      isChecked: false
+      isChecked: false,
     };
   }
 
   check = () => {
     console.log(this.props.answer);
 
-    if(this.state.isChecked) {
-      this.setState({isChecked:false})
+    if (this.state.isChecked) {
+      this.setState({ isChecked: false });
     } else {
       if (this.props.answer === this.props.id) {
         this.props.handleCorrect();
       }
-      this.setState({isChecked:true});
+      this.setState({ isChecked: true });
     }
-  }
+  };
 
   render() {
-
     return (
-        <View style={styles.item} >
-          <CheckBox
-            checked= {this.state.isChecked}
-            onPress={() => this.check()}
-          />
-          <Text > {this.props.id} </Text>
-        </View>
+      <View style={styles.item}>
+        <CheckBox checked={this.state.isChecked} onPress={() => this.check()} />
+        <Text> {this.props.id} </Text>
+      </View>
     );
   }
 }
-
-
 
 class QCM extends React.Component {
   constructor(props) {
@@ -66,10 +61,10 @@ class QCM extends React.Component {
 
   render() {
     return (
-      <View  style={styles.container}>
-      <Text>{this.props.question}</Text>
+      <View style={styles.container}>
+        <Text>{this.props.question}</Text>
         <FlatList
-          data = {this.props.data}
+          data={this.props.data}
           style={styles.container}
           renderItem={({ item }) => (
             <QCMItem
@@ -80,7 +75,7 @@ class QCM extends React.Component {
           )}
           keyExtractor={item => item.key}
         />
-       </View> 
+      </View>
     );
   }
 }
@@ -95,10 +90,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     flex: 1,
-    borderRadius:10,
+    borderRadius: 10,
     margin: 1,
     width: Dimensions.get('window').width / 2, // approximate a square,
-    height: Dimensions.get('window').width / 8 // approximate a square
+    height: Dimensions.get('window').width / 8, // approximate a square
   },
   itemText: {
     color: '#000',

@@ -1,74 +1,28 @@
-import React from "react";
-import { StyleSheet,
+import React from 'react';
+import {
+  StyleSheet,
   Text,
   ScrollView,
   FlatList,
   Dimensions,
   TouchableHighlight,
-  TouchableOpacity } from "react-native";
-import { List, ListItem, SearchBar, CheckBox } from "react-native-elements";
-import QCM from "./QCM";
-
-const data1 = [
-  { key: 'A' },
-  { key: 'B' },
-  { key: 'C' }
-];
-const data2 = [
-  { key: 'D' },
-  { key: 'E' },
-  { key: 'F' }
-];
-const data3 = [
-  { key: 'G' },
-  { key: 'H' },
-  { key: 'I' }
-];
-
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import { List, ListItem, SearchBar, CheckBox } from 'react-native-elements';
+import QCM from './ExerciceQuestions';
+import FIB from './QuestionF';
 class ExerciceQCM extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      score : 0,
+      score: 0,
     };
   }
 
-  handleCorrect = () => {
-    console.log('answer');
-    this.setState(
-      { score: this.state.score + 1 }
-    );
-  };
-
   render() {
-    return (
-      <ScrollView >
-      <QCM 
-        data = {data1}
-        question = 'question1'
-        answer = 'A'
-        handleCorrect = {this.handleCorrect}
-      />
-      <QCM 
-        data = {data2}
-        question = 'question2'
-        answer = 'D'
-        handleCorrect = {this.handleCorrect}
-      />
-      <QCM 
-        data = {data3}
-        question = 'question13'
-        answer = 'G'
-        handleCorrect = {this.handleCorrect}
-      />
-      <TouchableOpacity style={[styles.button]} onPress={() => {
-            console.log('submit');
-          }}>
-        <Text>Submit</Text>
-      </TouchableOpacity>
-      </ScrollView>
-    );
+    return <View />;
   }
 }
 
@@ -79,10 +33,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     flex: 1,
-    borderRadius:10,
+    borderRadius: 10,
     margin: 1,
     width: Dimensions.get('window').width / 2, // approximate a square,
-    height: Dimensions.get('window').width / 8 // approximate a square
+    height: Dimensions.get('window').width / 8, // approximate a square
   },
   itemText: {
     color: '#000',
@@ -90,10 +44,10 @@ const styles = StyleSheet.create({
   button: {
     height: 40,
     width: 100,
-    backgroundColor: "#add8e6",
+    backgroundColor: '#add8e6',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
 });
 

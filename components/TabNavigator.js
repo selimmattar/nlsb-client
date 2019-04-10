@@ -5,7 +5,7 @@ import { createMaterialTopTabNavigator } from 'react-navigation';
 import Stats from './Stats';
 import Settings from './Settings';
 import Lessons from './Lessons';
-import Exercise from './Exercise';
+import Exercise from './QuestionF';
 const TabNavigator = createMaterialTopTabNavigator(
   {
     //Chat : Chat,

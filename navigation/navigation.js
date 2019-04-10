@@ -17,9 +17,9 @@ import HomePage from '../components/HomePage';
 import TabNavigator from '../components/TabNavigator';
 import FillInTheBlanks from '../components/FillInTheBlanks';
 import QuestionF from '../components/QuestionF';
-import ExerciceQuestions from '../components/ExerciceQuestions';
+import ExerciceQuestionsQ from '../components/ExerciceQuestionsQ';
 import ExerciceQuestionsF from '../components/ExerciceQuestionsF';
-import ExerciceQCM from '../components/ExerciceQCM';
+//import ExerciceQCM from '../components/ExerciceQCM';
 import Chat from '../components/Chat';
 import SignUp from '../components/SignUp';
 const App = createMaterialTopTabNavigator(

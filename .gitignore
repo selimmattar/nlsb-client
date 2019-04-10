@@ -30,12 +30,6 @@ build/
 local.properties
 *.iml
 
-# node.js
-#
-components/
-Singleton/
-MySingleton.js
-
 # singleton
 #
 node_modules/

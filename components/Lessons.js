@@ -11,17 +11,17 @@ import { List, ListItem, SearchBar } from 'react-native-elements';
 import LessonItem from './LessonItem';
 
 const data = [
-  { key: 'A' },
-  { key: 'B' },
-  { key: 'C' },
-  { key: 'D' },
-  { key: 'E' },
-  { key: 'F' },
-  { key: 'G' },
-  { key: 'H' },
-  { key: 'I' },
-  { key: 'J' },
-  { key: 'K' },
+  { key: '1' },
+  { key: '2' },
+  { key: '3' },
+  { key: '11' },
+  { key: '12' },
+  { key: '13' },
+  { key: '21' },
+  { key: '22' },
+  { key: '31' },
+  { key: '41' },
+  { key: '42' },
   //{ key: 'L' },
   //{ key: 'M' },
   //{ key: 'N' },
@@ -144,7 +144,7 @@ export default class Lessons extends React.Component {
 
   _onPressItem = (id: string, item, index) => {
     console.log(id);
-    this.props.navigation.navigate('ExerciceQuestions', {id: id});
+    this.props.navigation.navigate('ExerciceQuestions', { id: id });
     // updater functions are preferred for transactional updates
     this.setState(state => {
       // copy the map rather than modifying state.
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   item: {
     borderRadius: 5,
-    borderWidth:5,
+    borderWidth: 5,
     borderColor: 'transparent',
     backgroundColor: '#fbc531',
     alignItems: 'center',
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 1,
     width: Dimensions.get('window').width / numColumns - 5, // approximate a square
-    height: Dimensions.get('window').width / numColumns -5 ,
+    height: Dimensions.get('window').width / numColumns - 5,
   },
   itemInvisible: {
     backgroundColor: 'transparent',

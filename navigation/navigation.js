@@ -2,6 +2,7 @@ import {
   createAppContainer,
   createSwitchNavigator,
   createStackNavigator,
+  StackNavigator,
 } from 'react-navigation';
 import { StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
@@ -11,22 +12,33 @@ import Settings from '../components/Settings';
 import Lessons from '../components/Lessons';
 import AuthLoading from '../components/AuthLoading';
 import LoginForm from '../components/LoginForm';
-import SiriWave from '../components/SiriWave'
-import HomePage from "../components/HomePage";
-import TabNavigator from "../components/TabNavigator";
-import FillInTheBlanks from "../components/FillInTheBlanks";
-import Exercise from "../components/Exercise";
-import ExerciceQuestions from "../components/ExerciceQuestions";
-
-import ExerciceQCM from '../components/ExerciceQCM';
+import SiriWave from '../components/SiriWave';
+import HomePage from '../components/HomePage';
+import TabNavigator from '../components/TabNavigator';
+import FillInTheBlanks from '../components/FillInTheBlanks';
+import QuestionF from '../components/QuestionF';
+import ExerciceQuestionsQ from '../components/ExerciceQuestionsQ';
+import ExerciceQuestionsF from '../components/ExerciceQuestionsF';
+//import ExerciceQCM from '../components/ExerciceQCM';
 import Chat from '../components/Chat';
-import SignUp from '../components/SignUp'
+import SignUp from '../components/SignUp';
 const App = createMaterialTopTabNavigator(
   {
-    Chat: Chat,
-    Lessons: Lessons,
+    //Chat: Chat,
+    Lessons: createStackNavigator(
+      {
+        Lessons: Lessons,
+        ExerciceQuestions: ExerciceQuestionsF,
+      },
+      {
+        headerMode: 'none',
+        navigationOptions: {
+          headerVisible: false,
+        },
+      },
+    ),
     SiriWave: SiriWave,
-    Stats: ExerciceQuestions,
+    Stats: Stats,
     Settings: Settings,
   },
   {

@@ -13,10 +13,13 @@ export default class Vertical extends Component {
     //console.log(data);
     let selectedButton = data.find(e => e.selected == true);
     //console.log(selectedButton);
-    
-      console.log('blabla')
-      this.props.updateState(selectedButton.value, this.props.data.answer, this.props.data.i);
-    
+
+    console.log('blabla');
+    this.props.updateState(
+      selectedButton.value,
+      this.props.data.answer,
+      this.props.data.i,
+    );
 
     /*if (selectedButton.value === this.props.data.answer) {
       this.setState({
@@ -36,19 +39,23 @@ export default class Vertical extends Component {
     }
     //console.log(this.state.score);
     //this.props.updateState(this.state.score);*/
-  }
+  };
 
   render() {
     /*this.props.data.choices.map((e) => {e.selected = false});*/
     let selectedButton = this.props.data.choices.find(e => e.selected == true);
-    this.props.data.choices.map((e) => {e.color = '#00a8ff'});
-      selectedButton = selectedButton /*selectedButton.value : this.props.data.choices[0].label;*/
+    this.props.data.choices.map(e => {
+      e.color = '#00a8ff';
+    });
+    selectedButton = selectedButton; /*selectedButton.value : this.props.data.choices[0].label;*/
     return (
       <View style={styles.container}>
-        <Text style={styles.question}>
-          {this.props.data.question}
-        </Text>
-        <RadioGroup radioButtons={this.props.data.choices} style={styles.radioButtons} onPress={this.onPress} />
+        <Text style={styles.question}>{this.props.data.question}</Text>
+        <RadioGroup
+          radioButtons={this.props.data.choices}
+          style={styles.radioButtons}
+          onPress={this.onPress}
+        />
       </View>
     );
   }
@@ -71,5 +78,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     //fontWeight: 'bold'
     //paddingStart: 5,
-  }
+  },
 });

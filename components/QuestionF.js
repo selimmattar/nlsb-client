@@ -13,18 +13,18 @@ import { TextInput } from 'react-native-gesture-handler';
 export default class Exercise extends React.Component {
   state = {
     type: '',
-    question: 'Fill in the blanks with verbs in the right tense',
-    content:
-      'I (go) & to dahdah yesterday then I (eat) & chocolate & fkhklh & aaaaaaaaa.',
+    question: '',
+    content: '',
     jsx: [],
     qcmcontent: ['first choice', 'second choice', 'third choice'],
     choiceBckg: '#FFFFFF',
   };
   componentDidMount() {
-    console.log('component did mount ! ');
-    var content = this.state.content;
-    this.prepareQCM(content);
-    // this.prepareQCM();
+    this.setState({
+      question: this.props.question,
+      content: this.props.content,
+    });
+    this.prepareExercise(this.props.content);
   }
   prepareExercise(content) {
     var Myjsx = [];
@@ -75,7 +75,6 @@ export default class Exercise extends React.Component {
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
           {this.state.question}
         </Text>
-
         {this.state.jsx}
       </View>
     );

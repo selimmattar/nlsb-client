@@ -17,7 +17,8 @@ import MySingleton from './Singleton/MySingleton';
 import data from '../assets/anim/data.json';
 import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import FBLoginButton from './FbLoginComps/FBLoginButton'
+//var FBLoginButton = require('./FBLoginComps/FBLoginButton');
 const EXAMPLES = [
   { language: 'en', text: 'Hello world!' },
   { language: 'es', text: 'Hola mundo' },
@@ -151,6 +152,7 @@ export default class LoginForm extends React.Component {
             returnKeyType="go"
           />
           {this.renderButton()}
+          <FBLoginButton/>
           <Text style={{justifyContent: 'center', 
       alignItems: 'center',
       position: 'absolute',

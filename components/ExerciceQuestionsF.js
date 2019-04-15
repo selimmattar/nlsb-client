@@ -9,9 +9,13 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import Question from './QuestionF';
+import QuestionF from './QuestionF';
+import QuestionQ from './QuestionQ';
 import RadioGroup from 'react-native-radio-buttons-group';
 import Modal from 'react-native-modalbox';
+import Axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
+import MySingleton from './Singleton/MySingleton';
 //import Slider from 'react-native-slider';
 
 var { width, height } = Dimensions.get('window');
@@ -34,6 +38,7 @@ export default class Vertical extends Component {
       springValue: new Animated.Value(0.3),
       yValue: new Animated.Value(0),
       myJsx: [],
+      grades: [],
     };
   }
 
@@ -78,13 +83,39 @@ export default class Vertical extends Component {
       duration: 2000,
     }).start();
   };
-  calculateResult = () => {
+  calculateResult = async () => {
     //if (!this.state.loading) return null;
     //this.fadeAnimation();
     this.appearAnimation();
     this.springAnimation();
+    const grades = this.state.grades;
+    const finalGrade = grades.reduce((sum, x) => sum + x) / grades.length;
+    const exercise = this.props.navigation.state.params.exercise;
 
-    var somme = 0;
+    let currentUserId = '';
+
+    AsyncStorage.getItem('currentId')
+      .then(response => {
+        currentUserId = response;
+        let i = -1;
+        exercise.questions.forEach(question => {
+          i++;
+          Axios.post('http://' + MySingleton.getId() + ':4000/Grade/add', {
+            userId: currentUserId,
+            questionId: question.id,
+            grade: this.state.grades[i],
+          })
+            .then(res => console.log('res is ' + res))
+            .catch(err => {
+              console.log(err);
+            });
+        });
+      })
+      .catch(err => {
+        console.log('err retrieve ');
+      });
+
+    /*   var somme = 0;
     this.state.scoreTab.forEach(element => {
       somme += element;
     });
@@ -92,29 +123,91 @@ export default class Vertical extends Component {
       rslt: somme,
       disabled: true,
     });
-    this.refs.modal4.open();
+    this.refs.modal4.open();*/
 
     //this.props.navigation.navigate('Lessons', {text: });
   };
 
-  updateState = (selectedAnswer, correctAnswer, i) => {
+  componentDidMount() {
+    const jsxArr = [];
+    const gradesArr = [];
+    const exercise = this.props.navigation.state.params.exercise;
+    console.log(exercise);
+    var i = -1;
+    exercise.questions.forEach(question => {
+      i++;
+      gradesArr.push(0);
+      if (question.type == 'F') {
+        const questionJsx = (
+          <QuestionF
+            key={i}
+            content={question.content}
+            question={question.question}
+            answer={question.correctAns}
+            UpdateStateF={this.UpdateStateF.bind(this)}
+            index={i}
+          />
+        );
+        jsxArr.push(questionJsx);
+      } else if (question.type == 'Q') {
+        const data = {
+          question: question.question,
+          choices: [
+            { key: 'A', label: question.firstSugg, value: 'A' },
+            { key: 'B', label: question.secondSugg, value: 'B' },
+            { key: 'C', label: question.thirdSugg, value: 'C' },
+          ],
+          answer: question.correctAns,
+          i: 2,
+        };
+        const questionJsx = (
+          <QuestionQ
+            key={i}
+            data={data}
+            question={question.question}
+            updateState={this.updateState}
+            index={i}
+          />
+        );
+        jsxArr.push(questionJsx);
+      }
+    });
+    this.setState({ myJsx: jsxArr, grades: gradesArr });
+  }
+  UpdateStateF(inputs, answers, index) {
+    var counter = 0;
+    for (i = 0; i < inputs.length; i++) {
+      if (inputs[i] == answers[i]) counter++;
+    }
+
+    const gradesArr = this.state.grades;
+    gradesArr[index] = (counter / inputs.length) * 100;
+    this.setState({ grades: gradesArr });
+    console.log(this.state.grades);
+  }
+  updateState = (selectedAnswer, correctAnswer, i, index) => {
     /*this.setState({
         score: this.state.score + childScore,
     });*/
+    let arr = this.state.scoreTab;
     console.log('score from child ' + selectedAnswer);
+    const gradesArr = this.state.grades;
     if (selectedAnswer === correctAnswer) {
-      let arr = this.state.scoreTab;
+      gradesArr[index] = 100;
       arr[i] = 1;
       this.setState({
         scoreTab: arr,
       });
     } else {
+      gradesArr[index] = 0;
       let arr = this.state.scoreTab;
       arr[i] = 0;
       this.setState({
         scoreTab: arr,
       });
     }
+    this.setState({ grades: gradesArr });
+    console.log(gradesArr);
   };
 
   renderResult1() {
@@ -175,7 +268,7 @@ export default class Vertical extends Component {
           <Animated.View
             style={[styles.animationView, { opacity: this.state.fadeValue }]}
           >
-            <Question content={'I & aaa & '} question={'fill in the blanks'} />
+            {this.state.myJsx}
             <View style={styles.buttonSection}>
               <TouchableOpacity
                 style={[styles.button]}

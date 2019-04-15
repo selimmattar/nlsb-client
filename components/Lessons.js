@@ -7,21 +7,23 @@ import {
   Dimensions,
   TouchableHighlight,
 } from 'react-native';
-import { List, ListItem, SearchBar } from 'react-native-elements';
+import { List, ListItem, SearchBar, Input } from 'react-native-elements';
 import LessonItem from './LessonItem';
-
+import axios from 'axios';
+import MySingleton from './Singleton/MySingleton';
+import { TextInput } from 'react-native-gesture-handler';
 const data = [
-  { key: '1' },
-  { key: '2' },
-  { key: '3' },
-  { key: '11' },
-  { key: '12' },
-  { key: '13' },
-  { key: '21' },
-  { key: '22' },
-  { key: '31' },
-  { key: '41' },
-  { key: '42' },
+  { key: 1, questions: [] },
+  { key: 2, questions: [] },
+  { key: 3, questions: [] },
+  { key: 11, questions: [] },
+  { key: 12, questions: [] },
+  { key: 13, questions: [] },
+  { key: 21, questions: [] },
+  { key: 22, questions: [] },
+  { key: 31, questions: [] },
+  { key: 41, questions: [] },
+  { key: 42, questions: [] },
   //{ key: 'L' },
   //{ key: 'M' },
   //{ key: 'N' },
@@ -83,6 +85,41 @@ export default class Lessons extends React.Component {
     };
   }
 
+  componentDidMount() {
+    axios
+      .get('http://10.0.2.2:4000/ExerciseF/')
+      .then(res => {
+        const lessons = res.data;
+        lessons.forEach(element => {
+          console.log(element);
+          data
+            .find(obj => {
+              return obj.key == element.lesson;
+            })
+            .questions.push({ ...element, type: 'F' });
+        });
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    axios
+      .get('http://10.0.2.2:4000/ExerciseQ/')
+      .then(res => {
+        const lessons = res.data;
+        lessons.forEach(element => {
+          console.log(element);
+          data
+            .find(obj => {
+              return obj.key == element.lesson;
+            })
+            .questions.push({ ...element, type: 'Q' });
+        });
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    console.log(data);
+  }
   handleRefresh = () => {
     this.setState(
       {
@@ -143,8 +180,12 @@ export default class Lessons extends React.Component {
   };
 
   _onPressItem = (id: string, item, index) => {
-    console.log(id);
-    this.props.navigation.navigate('ExerciceQuestions', { id: id });
+    this.props.navigation.navigate('ExerciceQuestions', {
+      id: id,
+      exercise: data.find(obj => {
+        return obj.key == id;
+      }),
+    });
     // updater functions are preferred for transactional updates
     this.setState(state => {
       // copy the map rather than modifying state.

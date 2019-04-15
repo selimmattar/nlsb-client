@@ -17,7 +17,8 @@ import MySingleton from './Singleton/MySingleton';
 import data from '../assets/anim/data.json';
 import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import FBLoginButton from './FbLoginComps/FBLoginButton'
+//import FBLoginButton from './FbLoginComps/FBLoginButton'
+import { LoginManager,LoginButton,AccessToken,GraphRequest,GraphRequestManager} from 'react-native-fbsdk';
 //var FBLoginButton = require('./FBLoginComps/FBLoginButton');
 const EXAMPLES = [
   { language: 'en', text: 'Hello world!' },
@@ -52,7 +53,29 @@ export default class LoginForm extends React.Component {
       'testagent-f6b6b',
     );*/
   }
-
+  renderFB(){
+    return (
+      <View>
+          <LoginButton
+  readPermissions={['public_profile']}
+  onLoginFinished={
+    (error, result) => {
+      if (error) {
+        console.log('login has error: ', result.error)
+      } else if (result.isCancelled) {
+        console.log('login is cancelled.')
+      } else {
+        AccessToken.getCurrentAccessToken().then((data) => {
+          const { accessToken } = data
+          this.initUser(accessToken)
+        })
+      }
+    }
+  }
+  onLogoutFinished={() => alert("User logged out")}/>
+      </View>
+    );
+  }
   renderButton() {
     if (this.state.isLoadingComplete) {
       return (
@@ -152,7 +175,7 @@ export default class LoginForm extends React.Component {
             returnKeyType="go"
           />
           {this.renderButton()}
-          <FBLoginButton/>
+          {this.renderFB()}
           <Text style={{justifyContent: 'center', 
       alignItems: 'center',
       position: 'absolute',
@@ -178,6 +201,64 @@ export default class LoginForm extends React.Component {
     let result = data;
     this.setState({ animation: result }, this._playAnimation);
   };
+  initUser(token) {
+    fetch('https://graph.facebook.com/v2.5/me?fields=email,name,first_name,last_name,friends&access_token=' + token)
+    .then((response) => response.json())
+    .then((json) => {
+      // Some user object has been set up somewhere, build that user here
+      //this.props.navigation.navigate('App');
+      //alert(json.email+json.first_name+json.last_name);
+      this.checkAccountExisting(json.email,json.first_name,json.last_name);
+      /*user.name = json.name
+      user.id = json.id
+      user.user_friends = json.friends
+      user.email = json.email
+      user.username = json.name
+      user.loading = false
+      user.loggedIn = true
+      user.avatar = setAvatar(json.id)   */   
+    })
+    .catch(() => {
+      //alert("mochkel fel co");
+      reject('ERROR GETTING DATA FROM FACEBOOK')
+    })
+  };
+
+  checkAccountExisting(email,firstName,lastName){
+    //alert(email);
+    axios
+    .post(
+      'http://' + MySingleton.getId() + ':4000/users/getByEmail',
+      {
+        username: email,
+      },
+    )
+    .then(res => {
+      //alert("exisiting connecting");
+      this.props.navigation.navigate('App');
+    })
+    .catch(err => {
+      //alert("ma l9ahouch");
+     this._addFbUser(email,firstName,lastName);
+    });
+  }
+  _addFbUser(email,firstname,lastname){
+    axios
+    .post("http://" + MySingleton.getId() + ":4000/users/register", {
+      username: email,
+      password: "fb",
+      firstName: firstname,
+      lastName: lastname,
+      lesson: "1"
+    })
+    .then(res => {
+      this.props.navigation.navigate('App');
+      //alert("ajouta");
+    })
+    .catch(err => {
+      alert("ma ajoutech");
+    });
+  }
 }
 
 const mapStateToProps = state => {

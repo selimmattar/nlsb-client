@@ -1,15 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Dimensions, TouchableHighlight, Image } from 'react-native';
-import { List, ListItem, SearchBar } from "react-native-elements";
-
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Dimensions,
+  TouchableHighlight,
+  Image,
+} from 'react-native';
+import { List, ListItem, SearchBar } from 'react-native-elements';
 
 export default class LessonItem extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      selected: false
+      selected: false,
     };
   }
 
@@ -26,8 +32,11 @@ export default class LessonItem extends React.Component {
 
     return (
       <TouchableHighlight onPress={this._onPress}>
-        <View style={styles.item} >
-          <Text style={styles.itemText} /*style={styles.itemText} */> {this.props.id} </Text>
+        <View style={styles.item}>
+          <Text style={styles.itemText} /*style={styles.itemText} */>
+            {' '}
+            {this.props.title}{' '}
+          </Text>
           {/*<View style={styles.imagesContainer} >
             <Image
               source={require('../assets/images/star.png')}
@@ -42,7 +51,6 @@ export default class LessonItem extends React.Component {
               style={styles.imageView}>
             </Image>
     </View>*/}
-         
         </View>
       </TouchableHighlight>
     );
@@ -74,7 +82,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
-  imagesContainer : {
+  imagesContainer: {
     flexDirection: 'row',
     flex: 1,
   },

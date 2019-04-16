@@ -151,7 +151,7 @@ export default class Exercise extends React.Component {
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
           {this.state.question}
         </Text>
-        <View style={styles.FIBcontainerIn}>{this.state.jsx}</View>
+        {this.state.jsx}
       </View>
     );
   }

@@ -13,17 +13,17 @@ import axios from 'axios';
 import MySingleton from './Singleton/MySingleton';
 import { TextInput } from 'react-native-gesture-handler';
 const data = [
-  { key: 1, questions: [] },
-  { key: 2, questions: [] },
-  { key: 3, questions: [] },
-  { key: 11, questions: [] },
-  { key: 12, questions: [] },
-  { key: 13, questions: [] },
-  { key: 21, questions: [] },
-  { key: 22, questions: [] },
-  { key: 31, questions: [] },
-  { key: 41, questions: [] },
-  { key: 42, questions: [] },
+  { key: 1, questions: [], title: 'Greetings and farewells' },
+  { key: 2, questions: [], title: 'Joined consonants and vowels' },
+  { key: 3, questions: [], title: 'Personal information' },
+  { key: 11, questions: [], title: 'This,that,these,those...' },
+  { key: 12, questions: [], title: 'Be verbs' },
+  { key: 13, questions: [], title: 'Action verbs' },
+  { key: 21, questions: [], title: 'Adjectives' },
+  { key: 22, questions: [], title: 'Comparatives and superlatives' },
+  { key: 31, questions: [], title: 'Nouns' },
+  { key: 41, questions: [], title: 'Simple past for regular verbs' },
+  { key: 42, questions: [], title: 'Simple past for irregular verbs' },
   //{ key: 'L' },
   //{ key: 'M' },
   //{ key: 'N' },
@@ -222,6 +222,7 @@ export default class Lessons extends React.Component {
         onPressItem={this._onPressItem}
         selected={!!this.state.selected.get(item.id)}
         key={item.key}
+        title={item.title}
       />
     );
   };

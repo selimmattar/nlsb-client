@@ -84,7 +84,7 @@ export default class Chat extends Component {
       typedText: '',
       startAnimation: true,
       stopAnimation: false,
-      frequency: 0.5,
+      frequency: 0,
       numberOfWaves: 1,
       primaryWaveLineWidth: 20,
     };
@@ -92,7 +92,14 @@ export default class Chat extends Component {
     Voice.onSpeechEnd = this.onSpeechEndHandler.bind(this);
     Voice.onSpeechResults = this.onSpeechResults.bind(this);
   }
-
+  componentDidMount() {
+    Tts.addEventListener('tts-start', event => {
+      this.setState({ frequency: 0, primaryWaveLineWidth: 80 });
+    });
+    Tts.addEventListener('tts-finish', event => {
+      this.setState({ frequency: 0.5, primaryWaveLineWidth: 20 });
+    });
+  }
   componentWillMount() {
     this.setState({
       messages: [

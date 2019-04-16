@@ -151,7 +151,7 @@ export default class Exercise extends React.Component {
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
           {this.state.question}
         </Text>
-        {this.state.jsx}
+        <View style={styles.FIBcontainerIn}>{this.state.jsx}</View>
       </View>
     );
   }
@@ -162,10 +162,18 @@ export default class Exercise extends React.Component {
 
 const styles = StyleSheet.create({
   FIBcontainer: {
-    flex: 0.5,
+    flex: 1,
     backgroundColor: '#fff',
     padding: 20,
     justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    flexDirection: 'column',
+  },
+  FIBcontainerIn: {
+    display: 'flex',
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',

@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
-//import Chat from './Chat'
+import Chat from './Chat';
 import Stats from './Stats';
 import Settings from './Settings';
 import Lessons from './Lessons';
 import Exercise from './QuestionF';
 const TabNavigator = createMaterialTopTabNavigator(
   {
-    //Chat : Chat,
+    Chat: Chat,
     Lessons: Lessons,
     Stats: Exercise,
     Settings: Settings,

@@ -110,6 +110,7 @@ export default class Vertical extends Component {
               console.log(err);
             });
         });
+        this.props.navigation.navigate('Lessons');
       })
       .catch(err => {
         console.log('err retrieve ');

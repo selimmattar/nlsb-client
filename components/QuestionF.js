@@ -16,7 +16,6 @@ export default class Exercise extends React.Component {
     question: '',
     content: '',
     jsx: [],
-    qcmcontent: ['first choice', 'second choice', 'third choice'],
     choiceBckg: '#FFFFFF',
   };
   componentDidMount() {
@@ -48,27 +47,6 @@ export default class Exercise extends React.Component {
     this.setState({ jsx: Myjsx });
   }
 
-  prepareQCM() {
-    var Myjsx = [];
-    var choicebckg = this.state.choiceBckg;
-
-    this.state.qcmcontent.forEach(function(el) {
-      const text = (
-        <TouchableHighlight>
-          <Text
-            ref={component => (this._text = component)}
-            style={{ fontSize: 15 }}
-            onPress={this._onpress}
-          >
-            {el}
-          </Text>
-        </TouchableHighlight>
-      );
-      Myjsx.push(text);
-    });
-    this.setState({ jsx: Myjsx });
-  }
-
   renderExercise() {
     return (
       <View style={styles.FIBcontainer}>
@@ -86,7 +64,7 @@ export default class Exercise extends React.Component {
 
 const styles = StyleSheet.create({
   FIBcontainer: {
-    flex: 0.5,
+    flex: 1,
     backgroundColor: '#fff',
     padding: 20,
     justifyContent: 'flex-start',

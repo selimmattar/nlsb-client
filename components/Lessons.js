@@ -84,14 +84,16 @@ export default class Lessons extends React.Component {
       refreshing: false,
     };
   }
-
+  componentWillUnmount() {
+    data.forEach(el => (el.questions = []));
+  }
   componentDidMount() {
     axios
       .get('http://10.0.2.2:4000/ExerciseF/')
       .then(res => {
         const lessons = res.data;
+
         lessons.forEach(element => {
-          console.log(element);
           data
             .find(obj => {
               return obj.key == element.lesson;

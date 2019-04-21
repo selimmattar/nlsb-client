@@ -93,17 +93,21 @@ export default class Vertical extends Component {
     const exercise = this.props.navigation.state.params.exercise;
 
     let currentUserId = '';
-
-    AsyncStorage.getItem('currentId')
+    let currentUserLesson = '';
+    AsyncStorage.multiGet(['currentId', 'currentLesson'])
       .then(response => {
-        currentUserId = response;
+        console.log('response is ' + response);
+        currentUserId = response[0][1];
+        currentUserLesson = response[1][1];
         let i = -1;
         exercise.questions.forEach(question => {
           i++;
+          console.log('current user lesson is ' + currentUserLesson);
           Axios.post('http://' + MySingleton.getId() + ':4000/Grade/add', {
             userId: currentUserId,
             questionId: question.id,
             grade: this.state.grades[i],
+            lesson: currentUserLesson,
           })
             .then(res => console.log('res is ' + res))
             .catch(err => {

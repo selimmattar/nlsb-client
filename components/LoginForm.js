@@ -120,13 +120,20 @@ export default class LoginForm extends React.Component {
                 this.setState({ token });
                 console.log('token is' + token);
                 this.setState({ authenticated: true });
-                console.log(this.state.currentUser);
+
                 AsyncStorage.setItem('currentId', this.state.currentUser._id);
                 AsyncStorage.setItem(
                   'currentUsername',
                   this.state.currentUser.username,
                 );
 
+                AsyncStorage.setItem(
+                  'currentLesson',
+                  this.state.currentUser.lesson + '',
+                );
+                AsyncStorage.getItem('currentLesson').then(response =>
+                  console.log(response),
+                );
                 //this.setState({ isLoadingComplete: true });
                 console.log('connected');
                 this.props.navigation.navigate('App');

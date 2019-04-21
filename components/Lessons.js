@@ -7,21 +7,23 @@ import {
   Dimensions,
   TouchableHighlight,
 } from 'react-native';
-import { List, ListItem, SearchBar } from 'react-native-elements';
+import { List, ListItem, SearchBar, Input } from 'react-native-elements';
 import LessonItem from './LessonItem';
-
+import axios from 'axios';
+import MySingleton from './Singleton/MySingleton';
+import { TextInput } from 'react-native-gesture-handler';
 const data = [
-  { key: '1' },
-  { key: '2' },
-  { key: '3' },
-  { key: '11' },
-  { key: '12' },
-  { key: '13' },
-  { key: '21' },
-  { key: '22' },
-  { key: '31' },
-  { key: '41' },
-  { key: '42' },
+  { key: 1, questions: [], title: 'Greetings and farewells' },
+  { key: 2, questions: [], title: 'Joined consonants and vowels' },
+  { key: 3, questions: [], title: 'Personal information' },
+  { key: 11, questions: [], title: 'This,that,these,those...' },
+  { key: 12, questions: [], title: 'Be verbs' },
+  { key: 13, questions: [], title: 'Action verbs' },
+  { key: 21, questions: [], title: 'Adjectives' },
+  { key: 22, questions: [], title: 'Comparatives and superlatives' },
+  { key: 31, questions: [], title: 'Nouns' },
+  { key: 41, questions: [], title: 'Simple past for regular verbs' },
+  { key: 42, questions: [], title: 'Simple past for irregular verbs' },
   //{ key: 'L' },
   //{ key: 'M' },
   //{ key: 'N' },
@@ -83,6 +85,41 @@ export default class Lessons extends React.Component {
     };
   }
 
+  componentDidMount() {
+    axios
+      .get('http://10.0.2.2:4000/ExerciseF/')
+      .then(res => {
+        const lessons = res.data;
+        lessons.forEach(element => {
+          console.log(element);
+          data
+            .find(obj => {
+              return obj.key == element.lesson;
+            })
+            .questions.push({ ...element, type: 'F' });
+        });
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    axios
+      .get('http://10.0.2.2:4000/ExerciseQ/')
+      .then(res => {
+        const lessons = res.data;
+        lessons.forEach(element => {
+          console.log(element);
+          data
+            .find(obj => {
+              return obj.key == element.lesson;
+            })
+            .questions.push({ ...element, type: 'Q' });
+        });
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    console.log(data);
+  }
   handleRefresh = () => {
     this.setState(
       {
@@ -143,8 +180,12 @@ export default class Lessons extends React.Component {
   };
 
   _onPressItem = (id: string, item, index) => {
-    console.log(id);
-    this.props.navigation.navigate('ExerciceQuestions', { id: id });
+    this.props.navigation.navigate('ExerciceQuestions', {
+      id: id,
+      exercise: data.find(obj => {
+        return obj.key == id;
+      }),
+    });
     // updater functions are preferred for transactional updates
     this.setState(state => {
       // copy the map rather than modifying state.
@@ -181,6 +222,7 @@ export default class Lessons extends React.Component {
         onPressItem={this._onPressItem}
         selected={!!this.state.selected.get(item.id)}
         key={item.key}
+        title={item.title}
       />
     );
   };

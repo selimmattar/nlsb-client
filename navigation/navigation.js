@@ -37,7 +37,7 @@ const App = createMaterialTopTabNavigator(
         },
       },
     ),
-    SiriWave: SiriWave,
+    Chat: Chat,
     Stats: Stats,
     Settings: Settings,
   },

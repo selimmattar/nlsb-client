@@ -15,9 +15,20 @@ import {
 import axios from 'axios';
 import MySingleton from './Singleton/MySingleton';
 import data from '../assets/anim/data.json';
+import blink from '../assets/anim/blink.json';
+import loading0 from '../assets/anim/loading0.json';
+import loading1 from '../assets/anim/loading1.json';
 import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-
+//import FBLoginButton from './FbLoginComps/FBLoginButton'
+import {
+  LoginManager,
+  LoginButton,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk';
+//var FBLoginButton = require('./FBLoginComps/FBLoginButton');
 const EXAMPLES = [
   { language: 'en', text: 'Hello world!' },
   { language: 'es', text: 'Hola mundo' },
@@ -31,8 +42,10 @@ export default class LoginForm extends React.Component {
     currentUser: [],
     username: '',
     password: '',
-    token: 'a',
-    animation: '',
+    token: '',
+    animation: data,
+    animationCount: 0,
+    loop: false,
     selectedExample: EXAMPLES[2],
     inProgress: false,
     pitch: 0.8,
@@ -51,7 +64,28 @@ export default class LoginForm extends React.Component {
       'testagent-f6b6b',
     );*/
   }
-
+  renderFB() {
+    return (
+      <View>
+        <LoginButton
+          readPermissions={['public_profile']}
+          onLoginFinished={(error, result) => {
+            if (error) {
+              console.log('login has error: ', result.error);
+            } else if (result.isCancelled) {
+              console.log('login is cancelled.');
+            } else {
+              AccessToken.getCurrentAccessToken().then(data => {
+                const { accessToken } = data;
+                this.initUser(accessToken);
+              });
+            }
+          }}
+          onLogoutFinished={() => alert('User logged out')}
+        />
+      </View>
+    );
+  }
   renderButton() {
     if (this.state.isLoadingComplete) {
       return (
@@ -59,7 +93,14 @@ export default class LoginForm extends React.Component {
           title="Log In"
           color="#D82735"
           onPress={() => {
-            this.setState({ isLoadingComplete: false });
+            this.setState({
+              animation: loading0,
+              loop: false,
+            });
+            this.animation.play();
+            this.setState({
+              isLoadingComplete: false,
+            });
             this.setState({ token: 'token is set' });
             console.log('Hellooo !');
             //console.log(this.state.token);
@@ -85,7 +126,7 @@ export default class LoginForm extends React.Component {
                   'currentUsername',
                   this.state.currentUser.username,
                 );
-                
+
                 //this.setState({ isLoadingComplete: true });
                 console.log('connected');
                 this.props.navigation.navigate('App');
@@ -99,8 +140,43 @@ export default class LoginForm extends React.Component {
           }}
         />
       );
-    } else return <ActivityIndicator size="small" color="#ffffff" />;
+    } else {
+      return <ActivityIndicator size="small" color="#ffffff" />;
+    }
   }
+  animationFinish() {
+    this.setState({ animationCount: this.state.animationCount + 1 });
+    if (this.state.animationCount == 1) {
+      this.setState({ animation: blink, loop: true });
+      this.animation.play();
+    } else if (
+      this.state.animationCount >= 3 &&
+      this.state.animationCount <= 6
+    ) {
+      this.setState({
+        animation: loading1,
+        loop: false,
+        animationCount: this.state.animationCount + 1,
+      });
+      this.animation.play();
+    } else if (this.state.animationCount == 7) {
+      if (this.state.isLoadingComplete) {
+        if (this.state.currentUser.length == 0) {
+          this.setState({ animation: blink, loop: true, animationCount: 2 });
+          this.animation.play();
+        } else {
+        }
+      } else {
+        this.setState({
+          animation: loading1,
+          loop: false,
+          animationCount: 3,
+        });
+        this.animation.play();
+      }
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -108,6 +184,7 @@ export default class LoginForm extends React.Component {
           ref={animation => {
             this.animation = animation;
           }}
+          onAnimationFinish={this.animationFinish.bind(this)}
           style={{
             width: 400,
             height: 400,
@@ -115,8 +192,8 @@ export default class LoginForm extends React.Component {
             marginTop: 20,
             flex: 1,
           }}
-          source={data}
-          loop={false}
+          source={this.state.animation}
+          loop={this.state.loop}
         />
         <KeyboardAvoidingView
           style={styles.formContainer}
@@ -151,15 +228,19 @@ export default class LoginForm extends React.Component {
             returnKeyType="go"
           />
           {this.renderButton()}
-          <Text style={{justifyContent: 'center', 
-      alignItems: 'center',
-      position: 'absolute',
-      bottom: 0}
-      }
-      onPress={() => this.props.navigation.navigate('SignUp')}
-      >Don't have an account ? Create One</Text>
+          {this.renderFB()}
+          <Text
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              bottom: 0,
+            }}
+            onPress={() => this.props.navigation.navigate('SignUp')}
+          >
+            Don't have an account ? Create One
+          </Text>
         </KeyboardAvoidingView>
-
       </View>
     );
   }
@@ -176,6 +257,64 @@ export default class LoginForm extends React.Component {
     let result = data;
     this.setState({ animation: result }, this._playAnimation);
   };
+  initUser(token) {
+    fetch(
+      'https://graph.facebook.com/v2.5/me?fields=email,name,first_name,last_name,friends&access_token=' +
+        token,
+    )
+      .then(response => response.json())
+      .then(json => {
+        // Some user object has been set up somewhere, build that user here
+        //this.props.navigation.navigate('App');
+        //alert(json.email+json.first_name+json.last_name);
+        this.checkAccountExisting(json.email, json.first_name, json.last_name);
+        /*user.name = json.name
+      user.id = json.id
+      user.user_friends = json.friends
+      user.email = json.email
+      user.username = json.name
+      user.loading = false
+      user.loggedIn = true
+      user.avatar = setAvatar(json.id)   */
+      })
+      .catch(() => {
+        //alert("mochkel fel co");
+        reject('ERROR GETTING DATA FROM FACEBOOK');
+      });
+  }
+
+  checkAccountExisting(email, firstName, lastName) {
+    //alert(email);
+    axios
+      .post('http://' + MySingleton.getId() + ':4000/users/getByEmail', {
+        username: email,
+      })
+      .then(res => {
+        //alert("exisiting connecting");
+        this.props.navigation.navigate('App');
+      })
+      .catch(err => {
+        //alert("ma l9ahouch");
+        this._addFbUser(email, firstName, lastName);
+      });
+  }
+  _addFbUser(email, firstname, lastname) {
+    axios
+      .post('http://' + MySingleton.getId() + ':4000/users/register', {
+        username: email,
+        password: 'fb',
+        firstName: firstname,
+        lastName: lastname,
+        lesson: '1',
+      })
+      .then(res => {
+        this.props.navigation.navigate('App');
+        //alert("ajouta");
+      })
+      .catch(err => {
+        alert('ma ajoutech');
+      });
+  }
 }
 
 const mapStateToProps = state => {

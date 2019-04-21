@@ -22,6 +22,11 @@ import { Dialogflow_V2 } from 'react-native-dialogflow';
 import Tts from 'react-native-tts';
 import axios from 'axios';
 import RNSiriWaveView from 'react-native-siri-wave-view';
+import ActionButton from 'react-native-circular-action-menu';
+import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
+import renderIf from 'render-if';
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   GiftedChat,
   Actions,
@@ -34,7 +39,32 @@ const instructions = Platform.select({
     'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu',
 });
-
+const lessonsCodes = [
+  'VnDXB3Fnr',
+  '8MPpnBgpB',
+  'ZB6x8WaQy',
+  '2Vlk+xS0D',
+  'vJEv+qVF1',
+  'C50+pHCSI',
+  'dpTcZGMIP',
+  'XAEaBaEbX',
+  '1HRT5MVh5',
+  'yRNSXkk8H',
+  'qMTw+A7Qi',
+];
+const lessonsNum = [
+  '1',
+  '2',
+  '3',
+  '11',
+  '12',
+  '13',
+  '21',
+  '22',
+  '31',
+  '41',
+  '42',
+];
 export default class Chat extends Component {
   constructor(props) {
     super(props);
@@ -54,47 +84,77 @@ export default class Chat extends Component {
       typedText: '',
       startAnimation: true,
       stopAnimation: false,
-      frequency: 1,
+      frequency: 0,
       numberOfWaves: 1,
-      primaryWaveLineWidth: 60,
+      primaryWaveLineWidth: 20,
     };
-
+    Voice.onSpeechStart = this.onSpeechStartHandler.bind(this);
+    Voice.onSpeechEnd = this.onSpeechEndHandler.bind(this);
     Voice.onSpeechResults = this.onSpeechResults.bind(this);
   }
-
-  componentWillMount() {
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-        },
-      ],
+  componentDidMount() {
+    Tts.addEventListener('tts-start', event => {
+      this.setState({ frequency: 0, primaryWaveLineWidth: 80 });
+    });
+    Tts.addEventListener('tts-finish', event => {
+      this.setState({ frequency: 0.5, primaryWaveLineWidth: 20 });
     });
   }
-
-  onSend(messages = []) {
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }));
-
+  componentWillMount() {
+    this.setState({
+      messages: [],
+    });
+  }
+  CommunicateDialogFlow(TextToSend) {
     Dialogflow_V2.requestQuery(
-      this.state.typedText,
+      TextToSend,
       result => {
+        const intent = JSON.parse(JSON.stringify(result)).queryResult.intent
+          .displayName;
         console.log(result);
-        if (
-          JSON.parse(JSON.stringify(result)).queryResult.intent.displayName ==
-          'dictionary'
-        ) {
+        if (intent == 'heyUsername') {
+          var currentUsername;
+          AsyncStorage.getItem('currentUsername')
+            .then(response => {
+              console.log(response);
+              currentUsername = response;
+              Dialogflow_V2.requestQuery(
+                'username is ' + currentUsername,
+                result => {
+                  this.setState({
+                    responseMessage: JSON.parse(JSON.stringify(result))
+                      .queryResult.fulfillmentMessages,
+                  });
+                  for (var t of this.state.responseMessage) {
+                    console.log(t.text.text[0]);
+                    Tts.speak(t.text.text[0]);
+                    var chatmsg = {
+                      _id: this.state.messages.length + 1,
+                      text: t.text.text[0],
+                      createdAt: new Date(),
+                      user: {
+                        _id: 2,
+                      },
+                    };
+                    this.setState(previousState => ({
+                      messages: GiftedChat.append(
+                        previousState.messages,
+                        chatmsg,
+                      ),
+                    }));
+                  }
+                },
+                error => console.log(error),
+              );
+            })
+            .catch(err => {
+              console.log('err retrieve ');
+              console.log(err);
+            });
+        } else if (intent == 'dictionary') {
           const word = JSON.parse(JSON.stringify(result)).queryResult
             .fulfillmentMessages[0].text.text[0];
-
+          console.log(word);
           axios
             .get(
               'https://od-api.oxforddictionaries.com/api/v1/entries/en/' + word,
@@ -108,9 +168,11 @@ export default class Chat extends Component {
             .then(response => {
               console.log('response');
               console.log(response);
-              var definition =
-                response.data.results[0].lexicalEntries[0].entries[0].senses[0]
+              const { data } = response;
+              const definition =
+                data.results[0].lexicalEntries[0].entries[0].senses[0]
                   .definitions[0];
+
               var chatmsg = {
                 _id: this.state.messages.length + 1,
                 text: definition,
@@ -127,6 +189,45 @@ export default class Chat extends Component {
             .catch(function(error) {
               console.log('error');
               console.log(error);
+            });
+        } else if (intent == 'InitialIntent - yes') {
+          var currentUserLesson;
+          AsyncStorage.getItem('currentUserLesson')
+            .then(response => {
+              console.log(response);
+              currentUserLesson = response;
+              Dialogflow_V2.requestQuery(
+                lessonsCodes[lessonsNum.indexOf(currentUserLesson)],
+                result => {
+                  this.setState({
+                    responseMessage: JSON.parse(JSON.stringify(result))
+                      .queryResult.fulfillmentMessages,
+                  });
+                  for (var t of this.state.responseMessage) {
+                    console.log(t.text.text[0]);
+                    Tts.speak(t.text.text[0]);
+                    var chatmsg = {
+                      _id: this.state.messages.length + 1,
+                      text: t.text.text[0],
+                      createdAt: new Date(),
+                      user: {
+                        _id: 2,
+                      },
+                    };
+                    this.setState(previousState => ({
+                      messages: GiftedChat.append(
+                        previousState.messages,
+                        chatmsg,
+                      ),
+                    }));
+                  }
+                },
+                error => console.log(error),
+              );
+            })
+            .catch(err => {
+              console.log('err retrieve ');
+              console.log(err);
             });
         } else {
           this.setState({
@@ -153,7 +254,19 @@ export default class Chat extends Component {
       error => console.log(error),
     );
   }
+  onSend(messages = []) {
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, messages),
+    }));
+    this.CommunicateDialogFlow(this.state.typedText);
+  }
+  onSpeechEndHandler(e) {
+    this.setState({ frequency: 0.5, primaryWaveLineWidth: 20 });
+  }
 
+  onSpeechStartHandler(e) {
+    this.setState({ frequency: 1.5, primaryWaveLineWidth: 70 });
+  }
   onSpeechResults(e) {
     console.log(e);
     this.setState({
@@ -171,33 +284,7 @@ export default class Chat extends Component {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, chatmsg),
     }));
-    Dialogflow_V2.requestQuery(
-      this.state.results[0],
-      result => {
-        console.log(result);
-        this.setState({
-          responseMessage: JSON.parse(JSON.stringify(result)).queryResult
-            .fulfillmentMessages,
-        });
-        console.log(this.state.responseMessage);
-        for (var t of this.state.responseMessage) {
-          console.log(t.text.text[0]);
-          Tts.speak(t.text.text[0]);
-          var chatmsg = {
-            _id: this.state.messages.length + 1,
-            text: t.text.text[0],
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-            },
-          };
-          this.setState(previousState => ({
-            messages: GiftedChat.append(previousState.messages, chatmsg),
-          }));
-        }
-      },
-      error => console.log(error),
-    );
+    this.CommunicateDialogFlow(this.state.results[0]);
   }
   onPress = () => {
     this._startRecognition();
@@ -219,34 +306,55 @@ export default class Chat extends Component {
   }
   render() {
     return (
-      /*  <View style={styles.container}>
-        <Button
-          style={styles.transcript}
-          onPress={
-            this.onPress
-          }
-          title="Start"
-        />
-        <GiftedChat
-          messages={this.state.messages}
-          text={this.state.typedText}
-          onSend={messages => this.onSend(messages)}
-          onInputTextChanged={text => this.setState({ typedText: text })}
-          user={{
-            _id: 1,
-          }}
-        />
-      </View>*/
       <View style={styles.container}>
-        <View style={{ position: 'absolute', bottom: 0, marginBottom: -49 }}>
+        <View style={{ flex: 0.9, backgroundColor: '#fff' }}>
+          <GiftedChat
+            messages={this.state.messages}
+            text={this.state.typedText}
+            onSend={messages => this.onSend(messages)}
+            onInputTextChanged={text => this.setState({ typedText: text })}
+            user={{
+              _id: 1,
+            }}
+          />
+        </View>
+
+        {/*Rest of App come ABOVE the action button component!*/}
+        {renderIf(this.state.typedText == '')(
+          <View
+            style={{
+              flex: 0.1,
+              backgroundColor: '#fff',
+            }}
+          >
+            <ActionButton autoInactive={false} buttonColor="#00a8ff">
+              <ActionButton.Item
+                buttonColor="#9b59b6"
+                title="New Task"
+                onPress={() => console.log('yayyyyyyy')}
+              >
+                <MaterialsIcon name="chat" style={styles.actionButtonIcon} />
+              </ActionButton.Item>
+
+              <ActionButton.Item
+                buttonColor="#3498db"
+                title="Microphone"
+                onPress={this._startRecognition.bind(this)}
+              >
+                <MaterialsIcon name="mic" style={styles.actionButtonIcon} />
+              </ActionButton.Item>
+            </ActionButton>
+          </View>,
+        )}
+        <View style={{ bottom: 0, marginBottom: -39 }}>
           <RNSiriWaveView
             type={0}
             width={Dimensions.get('window').width}
-            height={100}
+            height={55}
             startAnimation={this.state.startAnimation}
             stopAnimation={this.state.stopAnimation}
             numberOfWaves={10}
-            frequency={0.5}
+            frequency={1.9}
             waveColor="#BA55D3"
             primaryWaveLineWidth={this.state.primaryWaveLineWidth}
           />
@@ -293,5 +401,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
   },
 });

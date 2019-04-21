@@ -19,6 +19,7 @@ export default class Vertical extends Component {
       selectedButton.value,
       this.props.data.answer,
       this.props.data.i,
+      this.props.index,
     );
 
     /*if (selectedButton.value === this.props.data.answer) {

@@ -22,9 +22,10 @@ import ExerciceQuestionsF from '../components/ExerciceQuestionsF';
 //import ExerciceQCM from '../components/ExerciceQCM';
 import Chat from '../components/Chat';
 import SignUp from '../components/SignUp';
+import GoogleAPI from '../components/GoogleAPI';
 const App = createMaterialTopTabNavigator(
   {
-    //Chat: Chat,
+    Chat: Chat,
     Lessons: createStackNavigator(
       {
         Lessons: Lessons,
@@ -37,8 +38,8 @@ const App = createMaterialTopTabNavigator(
         },
       },
     ),
-    Chat: Chat,
-    Stats: Stats,
+
+    GoogleAPI: GoogleAPI,
     Settings: Settings,
   },
   {

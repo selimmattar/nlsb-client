@@ -19,7 +19,7 @@ import MySingleton from './Singleton/MySingleton';
 //import Slider from 'react-native-slider';
 
 var { width, height } = Dimensions.get('window');
-
+const Lessons = [1, 2, 3, 11, 12, 13, 21, 22, 31, 41, 42];
 export default class Vertical extends Component {
   constructor() {
     super();
@@ -94,27 +94,57 @@ export default class Vertical extends Component {
 
     let currentUserId = '';
     let currentUserLesson = '';
+
     AsyncStorage.multiGet(['currentId', 'currentLesson'])
       .then(response => {
         console.log('response is ' + response);
         currentUserId = response[0][1];
         currentUserLesson = response[1][1];
         let i = -1;
-        exercise.questions.forEach(question => {
-          i++;
-          console.log('current user lesson is ' + currentUserLesson);
-          Axios.post('http://' + MySingleton.getId() + ':4000/Grade/add', {
-            userId: currentUserId,
-            questionId: question.id,
-            grade: this.state.grades[i],
-            lesson: currentUserLesson,
-          })
-            .then(res => console.log('res is ' + res))
-            .catch(err => {
-              console.log(err);
-            });
+        if (exercise.key == parseInt(currentUserLesson)) {
+          exercise.questions.forEach(question => {
+            i++;
+            console.log('current user lesson is ' + currentUserLesson);
+
+            Axios.post('http://' + MySingleton.getId() + ':4000/Grade/add', {
+              userId: currentUserId,
+              questionId: question.id,
+              grade: this.state.grades[i],
+              lesson: exercise.key,
+            })
+              .then(res => {
+                if (finalGrade >= 70) {
+                  Axios.post(
+                    'http://' +
+                      MySingleton.getId() +
+                      ':4000/users/updateLesson',
+                    {
+                      id: currentUserId,
+                      lesson: Lessons[Lessons.indexOf(exercise.key) + 1],
+                    },
+                  )
+                    .then(res => {
+                      AsyncStorage.setItem(
+                        'currentLesson',
+                        Lessons[Lessons.indexOf(exercise.key) + 1] + '',
+                      );
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        }
+        let Lesson = Lessons[Lessons.indexOf(exercise.key)];
+        if (finalGrade >= 70)
+          Lesson = Lessons[Lessons.indexOf(exercise.key) + 1];
+        this.props.navigation.navigate('Lessons', {
+          Lesson: Lesson,
         });
-        this.props.navigation.navigate('Lessons');
       })
       .catch(err => {
         console.log('err retrieve ');

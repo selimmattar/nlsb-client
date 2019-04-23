@@ -25,6 +25,7 @@ import ExerciceQuestionsF from '../components/ExerciceQuestionsF';
 import Chat from '../components/Chat';
 import SignUp from '../components/SignUp';
 import GoogleAPI from '../components/GoogleAPI';
+import GridLayout from '../components/GridLayout';
 const App = createMaterialTopTabNavigator(
   {
     Chat: {
@@ -59,6 +60,7 @@ const App = createMaterialTopTabNavigator(
         tabBarIcon: ({ tintColor }) => <Icon name="wrench" color={tintColor} />
       }},
   },
+
   {
     tabBarOptions: {
       showLabel : false,
@@ -73,6 +75,11 @@ const App = createMaterialTopTabNavigator(
       style: {
         backgroundColor: '#171F33',
       },
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      tabBarVisible: false,
     },
   },
 );

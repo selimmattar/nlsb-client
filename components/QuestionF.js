@@ -124,27 +124,6 @@ export default class Exercise extends React.Component {
     this.setState({ Inputs: MyInputs });
   }
 
-  prepareQCM() {
-    var Myjsx = [];
-    var choicebckg = this.state.choiceBckg;
-
-    this.state.qcmcontent.forEach(function(el) {
-      const text = (
-        <TouchableHighlight>
-          <Text
-            ref={component => (this._text = component)}
-            style={{ fontSize: 15 }}
-            onPress={this._onpress}
-          >
-            {el}
-          </Text>
-        </TouchableHighlight>
-      );
-      Myjsx.push(text);
-    });
-    this.setState({ jsx: Myjsx });
-  }
-
   renderExercise() {
     return (
       <View style={styles.FIBcontainer}>

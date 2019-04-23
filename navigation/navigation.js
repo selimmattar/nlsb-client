@@ -40,7 +40,7 @@ const App = createMaterialTopTabNavigator(
       },
     ),
 
-    GoogleAPI: GridLayout,
+    GoogleAPI: GoogleAPI,
     Settings: Settings,
   },
 

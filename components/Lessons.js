@@ -7,6 +7,8 @@ import {
   Dimensions,
   TouchableHighlight,
   TouchableOpacity,
+  Animated,
+  Easing,
 } from 'react-native';
 import { List, ListItem, SearchBar, Input } from 'react-native-elements';
 import LessonItem from './LessonItem';
@@ -16,7 +18,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import BrickList from 'react-native-masonry-brick-list';
 import { NavigationEvents } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import * as Animatable from 'react-native-animatable';
 const data = [
   {
     key: 1,
@@ -160,12 +162,42 @@ export default class Lessons extends React.Component {
       error: null,
       refreshing: false,
     };
+    this.animatedValue = new Animated.Value(0.01);
   }
-
+  handleAnimation = () => {
+    // A loop is needed for continuous animation
+    Animated.loop(
+      // Animation consists of a sequence of steps
+      Animated.sequence([
+        // start rotation in one direction (only half the time is needed)
+        Animated.timing(this.animatedValue, {
+          toValue: 1.0,
+          duration: 150,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        // rotate in other direction, to minimum value (= twice the duration of above)
+        Animated.timing(this.animatedValue, {
+          toValue: -1.0,
+          duration: 300,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        // return to begin position
+        Animated.timing(this.animatedValue, {
+          toValue: 0.0,
+          duration: 150,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  };
   componentWillUnmount() {
     data.forEach(el => (el.questions = []));
   }
   componentDidMount() {
+    this.handleAnimation;
     axios
       .get('http://10.0.2.2:4000/ExerciseF/')
       .then(res => {
@@ -262,7 +294,6 @@ export default class Lessons extends React.Component {
 
   renderFooter = () => {
     if (!this.state.loading) return null;
-
     return (
       <View
         style={{
@@ -319,11 +350,11 @@ export default class Lessons extends React.Component {
   };
   renderView = prop => {
     return (
-      <TouchableOpacity
-        onPress={() => this._onPressItem(prop.key)}
-        key={prop.key}
-        id={prop.key}
-        disabled={prop.disabled}
+      <Animatable.View
+        delay={20}
+        animation="bounceInRight"
+        iterationCount={1}
+        direction="alternate"
         style={{
           margin: 2,
           borderRadius: 2,
@@ -333,8 +364,33 @@ export default class Lessons extends React.Component {
           justifyContent: 'center',
         }}
       >
-        <Text style={{ color: 'white' }}>{prop.title} </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this._onPressItem(prop.key)}
+          key={prop.key}
+          id={prop.key}
+          disabled={prop.disabled}
+          style={{
+            margin: 2,
+            borderRadius: 2,
+            backgroundColor: prop.color,
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          style={{
+            margin: 2,
+            borderRadius: 2,
+            backgroundColor: prop.color,
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Animatable.Text style={{ textAlign: 'center', color: 'white' }}>
+            {prop.title}
+          </Animatable.Text>
+        </TouchableOpacity>
+      </Animatable.View>
     );
   };
   WillFocus(payload) {

@@ -23,6 +23,7 @@ import ExerciceQuestionsF from '../components/ExerciceQuestionsF';
 import Chat from '../components/Chat';
 import SignUp from '../components/SignUp';
 import GoogleAPI from '../components/GoogleAPI';
+import GridLayout from '../components/GridLayout';
 const App = createMaterialTopTabNavigator(
   {
     Chat: Chat,
@@ -39,9 +40,10 @@ const App = createMaterialTopTabNavigator(
       },
     ),
 
-    GoogleAPI: GoogleAPI,
+    GoogleAPI: GridLayout,
     Settings: Settings,
   },
+
   {
     tabBarOptions: {
       inactiveTintColor: 'white',
@@ -54,6 +56,11 @@ const App = createMaterialTopTabNavigator(
       style: {
         backgroundColor: 'blue',
       },
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      tabBarVisible: false,
     },
   },
 );

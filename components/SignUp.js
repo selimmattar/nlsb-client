@@ -60,7 +60,8 @@ export default class SignUp extends React.Component {
                 username: this.state.username,
                 password: this.state.password,
                 firstName: this.state.firstname,
-                lastName: this.state.lastname
+                lastName: this.state.lastname,
+                lesson: 1
               })
               .then(res => {
                 this.props.navigation.navigate("LoginForm");

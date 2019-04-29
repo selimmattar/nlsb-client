@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, ImageBackground, Image , AsyncStorage} from 'react-native';
+import { StyleSheet, View, Text, ImageBackground, Image} from 'react-native';
 import { Button } from './common/Button';
-
+import AsyncStorage from '@react-native-community/async-storage';
 class Settings extends React.Component {
   render() {
     return (

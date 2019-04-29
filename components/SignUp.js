@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -11,28 +11,28 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Button,
-  ScrollView
-} from "react-native";
-import axios from "axios";
-import MySingleton from "./Singleton/MySingleton";
-import data from "../assets/anim/data.json";
-import LottieView from "lottie-react-native";
-import AsyncStorage from "@react-native-community/async-storage";
+  ScrollView,
+} from 'react-native';
+import axios from 'axios';
+import MySingleton from './Singleton/MySingleton';
+import data from '../assets/anim/data.json';
+import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class SignUp extends React.Component {
   state = {
     isLoadingComplete: true,
     currentUser: [],
-    firstname: "",
-    lastname: "",
-    username: "",
-    password: "",
-    token: "a",
-    animation: "",
+    firstname: '',
+    lastname: '',
+    username: '',
+    password: '',
+    token: 'a',
+    animation: '',
     inProgress: false,
     pitch: 0.8,
     rate: 0.8,
-    authenticated: false
+    authenticated: false,
   };
   componentDidMount() {
     this._playAnimation();
@@ -56,15 +56,15 @@ export default class SignUp extends React.Component {
           onPress={() => {
             this.setState({ isLoadingComplete: false });
             axios
-              .post("http://" + MySingleton.getId() + ":4000/users/register", {
+              .post('http://' + MySingleton.getId() + ':4000/users/register', {
                 username: this.state.username,
                 password: this.state.password,
                 firstName: this.state.firstname,
                 lastName: this.state.lastname,
-                lesson: 1
+                lesson: 1,
               })
               .then(res => {
-                this.props.navigation.navigate("LoginForm");
+                this.props.navigation.navigate('LoginForm');
                 //this.props.navigation.navigate("App");
               })
               .catch(err => {
@@ -78,25 +78,25 @@ export default class SignUp extends React.Component {
   }
   render() {
     return (
-      <ScrollView style={styles.container}> 
-          <LottieView
-            ref={animation => {
-              this.animation = animation;
-            }}
-            style={{
-              width: 250,
-              height: 250,
-              marginBottom: 20,
-              marginTop: 20,
-              flex: 1
-            }}
-            source={data}
-            loop={false}
-          />
-          <KeyboardAvoidingView
-            style={{flex : 1}}
-            //behavior = "position"
-          >
+      <ScrollView style={styles.container}>
+        <LottieView
+          ref={animation => {
+            this.animation = animation;
+          }}
+          style={{
+            width: 250,
+            height: 250,
+            marginBottom: 20,
+            marginTop: 20,
+            flex: 1,
+          }}
+          source={data}
+          loop={false}
+        />
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          //behavior = "position"
+        >
           <View style={styles.formContainer}>
             <TextInput
               style={styles.Input}
@@ -120,7 +120,7 @@ export default class SignUp extends React.Component {
               autoCapitalize="none"
               autoCorrect={false}
               onChangeText={lastname => this.setState({ lastname })}
-              secureTextEntry={true}
+              secureTextEntry={false}
               ref={input => {
                 this.secondTextInput = input;
               }}
@@ -155,8 +155,8 @@ export default class SignUp extends React.Component {
               }}
             />
             {this.renderButton()}
-            </View>
-          </KeyboardAvoidingView>
+          </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     );
   }
@@ -182,7 +182,7 @@ const mapStateToProps = state => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0052A5",
+    backgroundColor: '#0052A5',
     //padding: 20,
     //justifyContent: "center",
     //alignItems: "center"
@@ -191,23 +191,23 @@ const styles = StyleSheet.create({
     //width: '30%',
     //height: '30%',
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    resizeMode: "contain"
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'contain',
   },
   Input: {
-    backgroundColor: "rgba(255,255,255,0.2)",
+    backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 20,
-    color: "#FFF",
+    color: '#FFF',
     paddingHorizontal: 20,
-    width: "80%"
+    width: '80%',
   },
   button: {
     paddingVertical: 10,
   },
   formContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  }
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

@@ -6,29 +6,106 @@ import {
   FlatList,
   Dimensions,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import { List, ListItem, SearchBar, Input } from 'react-native-elements';
 import LessonItem from './LessonItem';
 import axios from 'axios';
 import MySingleton from './Singleton/MySingleton';
 import { TextInput } from 'react-native-gesture-handler';
+import BrickList from 'react-native-masonry-brick-list';
+import { NavigationEvents } from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
+
 const data = [
-  { key: 1, questions: [], title: 'Greetings and farewells' },
-  { key: 2, questions: [], title: 'Joined consonants and vowels' },
-  { key: 3, questions: [], title: 'Personal information' },
-  { key: 11, questions: [], title: 'This,that,these,those...' },
-  { key: 12, questions: [], title: 'Be verbs' },
-  { key: 13, questions: [], title: 'Action verbs' },
-  { key: 21, questions: [], title: 'Adjectives' },
-  { key: 22, questions: [], title: 'Comparatives and superlatives' },
-  { key: 31, questions: [], title: 'Nouns' },
-  { key: 41, questions: [], title: 'Simple past for regular verbs' },
-  { key: 42, questions: [], title: 'Simple past for irregular verbs' },
-  //{ key: 'L' },
-  //{ key: 'M' },
-  //{ key: 'N' },
-  // { key: 'K' },
-  // { key: 'L' },
+  {
+    key: 1,
+    questions: [],
+    title: 'Greetings and farewells',
+    color: '#0174DF',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 2,
+    questions: [],
+    title: 'Joined consonants and vowels',
+    color: '#0174DF',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 3,
+    questions: [],
+    title: 'Personal information',
+    color: '#0174DF',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 11,
+    questions: [],
+    title: 'This,that,these,those...',
+    color: '#01A9DB',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 12,
+    questions: [],
+    title: 'Be verbs',
+    color: '#01A9DB',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 13,
+    questions: [],
+    title: 'Action verbs',
+    color: '#01A9DB',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 21,
+    questions: [],
+    title: 'Adjectives',
+    color: '#04B4AE',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 22,
+    questions: [],
+    title: 'Comparatives and superlatives',
+    color: '#04B4AE',
+    span: 2,
+    disabled: true,
+  },
+  {
+    key: 31,
+    questions: [],
+    title: 'Nouns',
+    color: '#088A68',
+    span: 3,
+    disabled: true,
+  },
+  {
+    key: 41,
+    questions: [],
+    title: 'Simple past for regular verbs',
+    color: '#088A4B',
+    span: 1,
+    disabled: true,
+  },
+  {
+    key: 42,
+    questions: [],
+    title: 'Simple past for irregular verbs',
+    color: '#088A4B',
+    span: 2,
+    disabled: true,
+  },
 ];
 
 const formatData = (data, numColumns) => {
@@ -77,13 +154,14 @@ export default class Lessons extends React.Component {
     this.state = {
       selected: (new Map(): Map<string, boolean>),
       loading: false,
-      data: [],
+      allowedLessons: [],
       page: 1,
       seed: 1,
       error: null,
       refreshing: false,
     };
   }
+
   componentWillUnmount() {
     data.forEach(el => (el.questions = []));
   }
@@ -109,7 +187,6 @@ export default class Lessons extends React.Component {
       .then(res => {
         const lessons = res.data;
         lessons.forEach(element => {
-          console.log(element);
           data
             .find(obj => {
               return obj.key == element.lesson;
@@ -120,7 +197,25 @@ export default class Lessons extends React.Component {
       .catch(err => {
         console.log(err.message);
       });
-    console.log(data);
+    AsyncStorage.getItem('currentLesson')
+      .then(response => {
+        const currentLesson = parseInt(response);
+        data
+          .filter(el => {
+            return el.key <= currentLesson;
+          })
+          .forEach(el => {
+            el.disabled = false;
+          });
+        this.setState({
+          allowedLessons: data.filter(el => {
+            return el.key <= currentLesson;
+          }),
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   handleRefresh = () => {
     this.setState(
@@ -181,7 +276,7 @@ export default class Lessons extends React.Component {
     );
   };
 
-  _onPressItem = (id: string, item, index) => {
+  _onPressItem(id) {
     this.props.navigation.navigate('ExerciceQuestions', {
       id: id,
       exercise: data.find(obj => {
@@ -189,34 +284,28 @@ export default class Lessons extends React.Component {
       }),
     });
     // updater functions are preferred for transactional updates
-    this.setState(state => {
-      // copy the map rather than modifying state.
-      const selected = new Map(state.selected);
-      selected.set(id, !selected.get(id)); // toggle
-      return { selected };
-    });
-  };
+  }
 
   renderItem = ({ item }) => {
     if (item.empty === true) {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
     /*
-    <TouchableHighlight
-      onPress={() => this._onPress(item)}
-      //onShowUnderlay={separators.highlight}
-      //onHideUnderlay={separators.unhighlight}
-    >
-      <View style={{ backgroundColor: 'white' }}>
-        <Text>{item.title}</Text>
-      </View>
-    </TouchableOpacity>;
-    return (
-      <View
-        style={styles.item}>
-        <Text style={styles.itemText}>{item.key}</Text>
-      </View>
-    );*/
+      <TouchableHighlight
+        onPress={() => this._onPress(item)}
+        //onShowUnderlay={separators.highlight}
+        //onHideUnderlay={separators.unhighlight}
+      >
+        <View style={{ backgroundColor: 'white' }}>
+          <Text>{item.title}</Text>
+        </View>
+      </TouchableOpacity>;
+      return (
+        <View
+          style={styles.item}>
+          <Text style={styles.itemText}>{item.key}</Text>
+        </View>
+      );*/
 
     return (
       <LessonItem
@@ -228,38 +317,56 @@ export default class Lessons extends React.Component {
       />
     );
   };
-
-  render() {
+  renderView = prop => {
     return (
-      <FlatList
-        data={formatData(data, numColumns)}
-        style={styles.container}
-        renderItem={this.renderItem}
-        numColumns={numColumns}
-        //ItemSeparatorComponent={this.renderSeparator}
-        //ListHeaderComponent={this.renderHeader}
-        ListFooterComponent={this.renderFooter}
-        onRefresh={this.handleRefresh}
-        refreshing={this.state.refreshing}
-        onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={50}
-      />
-    );
-  }
-}
-class MyListItem extends React.PureComponent {
-  _onPress = () => {
-    this.props.onPressItem(this.props.id);
-  };
-
-  render() {
-    const textColor = this.props.selected ? 'red' : 'black';
-    return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View>
-          <Text style={{ color: textColor }}>{this.props.title}</Text>
-        </View>
+      <TouchableOpacity
+        onPress={() => this._onPressItem(prop.key)}
+        key={prop.key}
+        id={prop.key}
+        disabled={prop.disabled}
+        style={{
+          margin: 2,
+          borderRadius: 2,
+          backgroundColor: prop.color,
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Text style={{ color: 'white' }}>{prop.title} </Text>
       </TouchableOpacity>
+    );
+  };
+  WillFocus(payload) {
+    if (payload.state.params) {
+      if (payload.state.params.Lesson) {
+        Lesson = payload.state.params.Lesson;
+        data
+          .filter(el => {
+            return el.key <= Lesson;
+          })
+          .forEach(el => {
+            el.disabled = false;
+          });
+      }
+    }
+    this.forceUpdate();
+  }
+  render() {
+    return (
+      <View>
+        <NavigationEvents
+          onWillFocus={payload => this.WillFocus(payload)}
+          onDidFocus={payload => console.log('did focus', payload)}
+          onWillBlur={payload => console.log('will blur', payload)}
+          onDidBlur={payload => console.log('did blur', payload)}
+        />
+        <BrickList
+          data={data}
+          renderItem={prop => this.renderView(prop)}
+          columns={3}
+        />
+      </View>
     );
   }
 }

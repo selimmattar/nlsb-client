@@ -4,8 +4,10 @@ import {
   createStackNavigator,
   StackNavigator,
 } from 'react-navigation';
+import React, { Component } from 'react';
 import { StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome';
 //import Chat from '../components/Chat'
 import Stats from '../components/Stats';
 import Settings from '../components/Settings';
@@ -26,35 +28,65 @@ import GoogleAPI from '../components/GoogleAPI';
 import GridLayout from '../components/GridLayout';
 const App = createMaterialTopTabNavigator(
   {
-    Chat: Chat,
-    Lessons: createStackNavigator(
-      {
-        Lessons: Lessons,
-        ExerciceQuestions: ExerciceQuestionsF,
+    Chat: {
+      screen: Chat,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="wechat" color={tintColor} size={20} />
+        ),
       },
-      {
-        headerMode: 'none',
-        navigationOptions: {
-          headerVisible: false,
+    },
+    Lessons: {
+      screen: createStackNavigator(
+        {
+          Lessons: Lessons,
+          ExerciceQuestions: ExerciceQuestionsF,
         },
+        {
+          headerMode: 'none',
+          navigationOptions: {
+            headerVisible: false,
+          },
+        },
+      ),
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="book" color={tintColor} size={20} />
+        ),
       },
-    ),
+    },
 
-    GoogleAPI: GoogleAPI,
-    Settings: Settings,
+    GoogleAPI: {
+      screen: GoogleAPI,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="camera" color={tintColor} size={20} />
+        ),
+      },
+    },
+    Settings: {
+      screen: Settings,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="wrench" color={tintColor} size={20} />
+        ),
+      },
+    },
   },
 
   {
     tabBarOptions: {
-      inactiveTintColor: 'white',
-      activeTintColor: 'white',
+      showLabel: false,
+      showIcon: true,
+      inactiveTintColor: '#586589',
+      activeTintColor: '#F8F8F8',
       activeBackgroundColor: 'white',
       labelStyle: {
         fontSize: 10,
         fontStyle: 'normal',
       },
       style: {
-        backgroundColor: 'blue',
+        backgroundColor: '#171F33',
       },
     },
   },

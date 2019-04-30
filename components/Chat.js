@@ -65,6 +65,7 @@ const lessonsNum = [
   '41',
   '42',
 ];
+const LastIntents = ['thisthat', 'adjectives', 'nouns', 'simplePastReg'];
 export default class Chat extends Component {
   constructor(props) {
     super(props);
@@ -192,17 +193,27 @@ export default class Chat extends Component {
             });
         } else if (intent == 'InitialIntent - yes') {
           var currentUserLesson;
-          AsyncStorage.getItem('currentUserLesson')
+          AsyncStorage.getItem('currentLesson')
             .then(response => {
-              console.log(response);
+              console.log(' user lesson' + response);
               currentUserLesson = response;
               Dialogflow_V2.requestQuery(
                 lessonsCodes[lessonsNum.indexOf(currentUserLesson)],
                 result => {
-                  this.setState({
-                    responseMessage: JSON.parse(JSON.stringify(result))
-                      .queryResult.fulfillmentMessages,
-                  });
+                  const Localintent = JSON.parse(JSON.stringify(result))
+                    .queryResult.intent.displayName;
+                  console.log(Localintent);
+                  if (LastIntents.includes(Localintent))
+                    this.setState({
+                      responseMessage: JSON.parse(
+                        JSON.stringify(result),
+                      ).queryResult.fulfillmentMessages.slice(1),
+                    });
+                  else
+                    this.setState({
+                      responseMessage: JSON.parse(JSON.stringify(result))
+                        .queryResult.fulfillmentMessages,
+                    });
                   for (var t of this.state.responseMessage) {
                     console.log(t.text.text[0]);
                     Tts.speak(t.text.text[0]);
@@ -224,6 +235,73 @@ export default class Chat extends Component {
                 },
                 error => console.log(error),
               );
+            })
+            .catch(err => {
+              console.log('err retrieve ');
+              console.log(err);
+            });
+        } else if (LastIntents.includes(intent)) {
+          console.log('entered condition');
+          const responseMsg = JSON.parse(JSON.stringify(result)).queryResult
+            .fulfillmentMessages;
+
+          console.log(parseInt(responseMsg[0].text.text[0]));
+          const Lessonlevel = parseInt(responseMsg[0].text.text[0]);
+          AsyncStorage.getItem('currentLesson')
+            .then(response => {
+              currentUserLesson = parseInt(response);
+
+              if (currentUserLesson < Lessonlevel) {
+                Dialogflow_V2.requestQuery(
+                  'YouShallNotPass',
+                  result => {
+                    this.setState({
+                      responseMessage: JSON.parse(JSON.stringify(result))
+                        .queryResult.fulfillmentMessages,
+                    });
+                    for (var t of this.state.responseMessage) {
+                      Tts.speak(t.text.text[0]);
+                      var chatmsg = {
+                        _id: this.state.messages.length + 1,
+                        text: t.text.text[0],
+                        createdAt: new Date(),
+                        user: {
+                          _id: 2,
+                        },
+                      };
+                      this.setState(previousState => ({
+                        messages: GiftedChat.append(
+                          previousState.messages,
+                          chatmsg,
+                        ),
+                      }));
+                    }
+                  },
+                  error => console.log(error),
+                );
+              } else {
+                this.setState({
+                  responseMessage: responseMsg.slice(1),
+                });
+                for (var t of this.state.responseMessage) {
+                  console.log(t.text.text[0]);
+                  Tts.speak(t.text.text[0]);
+                  var chatmsg = {
+                    _id: this.state.messages.length + 1,
+                    text: t.text.text[0],
+                    createdAt: new Date(),
+                    user: {
+                      _id: 2,
+                    },
+                  };
+                  this.setState(previousState => ({
+                    messages: GiftedChat.append(
+                      previousState.messages,
+                      chatmsg,
+                    ),
+                  }));
+                }
+              }
             })
             .catch(err => {
               console.log('err retrieve ');

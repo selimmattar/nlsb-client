@@ -26,6 +26,7 @@ import Chat from '../components/Chat';
 import SignUp from '../components/SignUp';
 import GoogleAPI from '../components/GoogleAPI';
 import GridLayout from '../components/GridLayout';
+import Profile from '../components/Profile';
 const App = createMaterialTopTabNavigator(
   {
     Chat: {
@@ -65,7 +66,7 @@ const App = createMaterialTopTabNavigator(
       },
     },
     Settings: {
-      screen: Settings,
+      screen: Profile,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="wrench" color={tintColor} size={20} />

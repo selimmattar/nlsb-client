@@ -199,7 +199,7 @@ export default class Lessons extends React.Component {
   componentDidMount() {
     this.handleAnimation;
     axios
-      .get('http://10.0.2.2:4000/ExerciseF/')
+      .get('http://' + MySingleton.getId() + ':4000/ExerciseF/')
       .then(res => {
         const lessons = res.data;
 
@@ -215,7 +215,7 @@ export default class Lessons extends React.Component {
         console.log(err.message);
       });
     axios
-      .get('http://10.0.2.2:4000/ExerciseQ/')
+      .get('http://' + MySingleton.getId() + ':4000/ExerciseQ/')
       .then(res => {
         const lessons = res.data;
         lessons.forEach(element => {
@@ -386,9 +386,15 @@ export default class Lessons extends React.Component {
             justifyContent: 'center',
           }}
         >
-          <Animatable.Text style={{ textAlign: 'center', color: 'white' }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              textAlignVertical: 'center',
+              color: 'white',
+            }}
+          >
             {prop.title}
-          </Animatable.Text>
+          </Text>
         </TouchableOpacity>
       </Animatable.View>
     );

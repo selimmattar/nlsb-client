@@ -27,12 +27,14 @@ import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
 import renderIf from 'render-if';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import AsyncStorage from '@react-native-community/async-storage';
+import MySingleton from './Singleton/MySingleton';
 import {
   GiftedChat,
   Actions,
   Bubble,
   SystemMessage,
 } from 'react-native-gifted-chat';
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -186,6 +188,38 @@ export default class Chat extends Component {
                 messages: GiftedChat.append(previousState.messages, chatmsg),
               }));
               Tts.speak(definition);
+            })
+            .catch(function(error) {
+              console.log('error');
+              console.log(error);
+            });
+        } else if (intent == 'dictionary.Sentence') {
+          const word = JSON.parse(JSON.stringify(result)).queryResult
+            .fulfillmentMessages[0].text.text[0];
+          axios
+            .post(
+              'http://' +
+                MySingleton.getId() +
+                ':4000/WebScrapper/generateSentence/',
+              {
+                contains: word,
+              },
+            )
+            .then(response => {
+              console.log(response);
+              res = response.data;
+              var chatmsg = {
+                _id: this.state.messages.length + 1,
+                text: res,
+                createdAt: new Date(),
+                user: {
+                  _id: 2,
+                },
+              };
+              this.setState(previousState => ({
+                messages: GiftedChat.append(previousState.messages, chatmsg),
+              }));
+              Tts.speak(res);
             })
             .catch(function(error) {
               console.log('error');

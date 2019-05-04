@@ -7,6 +7,7 @@ import { Spinner } from './common/Spinner';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import MySingleton from './Singleton/MySingleton';
 class LoginForm extends React.Component {
   state = {
     isLoadingComplete: true,
@@ -27,7 +28,7 @@ class LoginForm extends React.Component {
             console.log('registered !');
             // this.props.login(this.state.token);
             axios
-              .post('http://192.168.137.1:4000/users/register', {
+              .post('http://' + MySingleton.getId() + ':4000/users/register', {
                 username: this.state.username,
                 password: this.state.password,
                 firstName: this.state.firstname,

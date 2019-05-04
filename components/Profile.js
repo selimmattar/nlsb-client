@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from './common/Button';
 import {
   StyleSheet,
   Text,
@@ -108,6 +109,7 @@ export default class Profile extends Component {
               <Text style={[styles.description, styles.content]}>
                 Welcome to your profile
               </Text>
+              {this.renderButtonStats()}
               <TouchableOpacity
                 style={[styles.buttonContainer, styles.content]}
               >
@@ -123,11 +125,7 @@ export default class Profile extends Component {
               >
                 <Text>Opcion 1</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.buttonContainer, styles.content]}
-              >
-                <Text>Opcion 1</Text>
-              </TouchableOpacity>
+              {this.renderButton()}
             </View>
           </View>
         </Container>
@@ -137,6 +135,42 @@ export default class Profile extends Component {
   onPageChange(position) {
     this.setState({ current: position });
   }
+  renderButton() {
+    //if (this.state.isLoadingComplete) {
+      return (
+
+        <TouchableOpacity style={styles.logoutButton}
+        
+          onPress={e => {
+            AsyncStorage.clear();
+            this.props.navigation.navigate("Auth");
+          }}
+        >
+          <Text style={styles.logoutText}>Sign Out</Text>
+        </TouchableOpacity>
+
+      );
+    //}
+    //return <Spinner size="small" />;
+  }
+
+  renderButtonStats() {
+    //if (this.state.isLoadingComplete) {
+      return (
+        <TouchableOpacity
+                style={[styles.buttonContainer, styles.content]}
+                onPress={e => {
+                  //AsyncStorage.clear();
+                  this.props.navigation.navigate("Stats");
+                }}
+              >
+                <Text>Statistics</Text>
+              </TouchableOpacity>
+      );
+    //}
+    //return <Spinner size="small" />;
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -146,6 +180,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     flexGrow: 1,
@@ -186,6 +222,9 @@ const styles = StyleSheet.create({
     color: '#00BFFF',
     marginTop: 10,
   },
+  logoutText: {
+    color: 'white',
+  },
   description: {
     fontSize: 16,
     color: '#696969',
@@ -202,6 +241,16 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 30,
     backgroundColor: '#00BFFF',
+  },
+  logoutButton: {
+    marginTop: 30,
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30,
+    backgroundColor: '#D82735',
   },
   scrollview: {
     flexGrow: 1,

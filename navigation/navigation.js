@@ -56,7 +56,7 @@ const App = createMaterialTopTabNavigator(
         ),
       },
     },
-
+    
     GoogleAPI: {
       screen: GoogleAPI,
       navigationOptions: {
@@ -65,7 +65,29 @@ const App = createMaterialTopTabNavigator(
         ),
       },
     },
+
     Settings: {
+      screen: createStackNavigator(
+        {
+          Settings: Profile,
+          Stats: Stats,
+        },
+        {
+          headerMode: 'none',
+          navigationOptions: {
+            headerVisible: false,
+          },
+        },
+      ),
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="wrench" color={tintColor} size={20} />
+        ),
+      },
+    },
+
+
+    /*Settings: {
       screen: Profile,
       //screen: Settings,
       navigationOptions: {
@@ -73,7 +95,7 @@ const App = createMaterialTopTabNavigator(
           <Icon name="wrench" color={tintColor} size={20} />
         ),
       },
-    },
+    },*/
   },
 
   {

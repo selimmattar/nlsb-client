@@ -109,11 +109,7 @@ export default class Profile extends Component {
               <Text style={[styles.description, styles.content]}>
                 Welcome to your profile
               </Text>
-              <TouchableOpacity
-                style={[styles.buttonContainer, styles.content]}
-              >
-                <Text>Opcion 1</Text>
-              </TouchableOpacity>
+              {this.renderButtonStats()}
               <TouchableOpacity
                 style={[styles.buttonContainer, styles.content]}
               >
@@ -142,6 +138,7 @@ export default class Profile extends Component {
   renderButton() {
     //if (this.state.isLoadingComplete) {
       return (
+
         <TouchableOpacity style={styles.logoutButton}
         
           onPress={e => {
@@ -151,10 +148,29 @@ export default class Profile extends Component {
         >
           <Text style={styles.logoutText}>Sign Out</Text>
         </TouchableOpacity>
+
       );
     //}
     //return <Spinner size="small" />;
   }
+
+  renderButtonStats() {
+    //if (this.state.isLoadingComplete) {
+      return (
+        <TouchableOpacity
+                style={[styles.buttonContainer, styles.content]}
+                onPress={e => {
+                  //AsyncStorage.clear();
+                  this.props.navigation.navigate("Stats");
+                }}
+              >
+                <Text>Statistics</Text>
+              </TouchableOpacity>
+      );
+    //}
+    //return <Spinner size="small" />;
+  }
+
 }
 
 const styles = StyleSheet.create({

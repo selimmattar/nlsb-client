@@ -7,7 +7,7 @@ import {
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
 //import Chat from '../components/Chat'
 import Stats from '../components/Stats';
 import Settings from '../components/Settings';
@@ -26,44 +26,58 @@ import Chat from '../components/Chat';
 import SignUp from '../components/SignUp';
 import GoogleAPI from '../components/GoogleAPI';
 import GridLayout from '../components/GridLayout';
+import Profile from '../components/Profile';
 const App = createMaterialTopTabNavigator(
   {
     Chat: {
       screen: Chat,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Icon name="wechat" color={tintColor} />
-      }
-  },
-    Lessons: { screen : createStackNavigator(
-      {
-        Lessons: Lessons,
-        ExerciceQuestions: ExerciceQuestionsF,
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="wechat" color={tintColor} size={20} />
+        ),
       },
-      {
-        headerMode: 'none',
-        navigationOptions: {
-          headerVisible: false,
-        },
-      },
-    ),
-    navigationOptions: {
-      tabBarIcon: ({ tintColor }) => <Icon name="book" color={tintColor} />
-    }},
-
-    GoogleAPI: {screen : GoogleAPI,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Icon name="camera" color={tintColor} />
-      }
     },
-    Settings: {screen :Settings ,
+    Lessons: {
+      screen: createStackNavigator(
+        {
+          Lessons: Lessons,
+          ExerciceQuestions: ExerciceQuestionsF,
+        },
+        {
+          headerMode: 'none',
+          navigationOptions: {
+            headerVisible: false,
+          },
+        },
+      ),
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Icon name="wrench" color={tintColor} />
-      }},
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="book" color={tintColor} size={20} />
+        ),
+      },
+    },
+
+    GoogleAPI: {
+      screen: GoogleAPI,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="camera" color={tintColor} size={20} />
+        ),
+      },
+    },
+    Settings: {
+      screen: Profile,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="wrench" color={tintColor} size={20} />
+        ),
+      },
+    },
   },
 
   {
     tabBarOptions: {
-      showLabel : false,
+      showLabel: false,
       showIcon: true,
       inactiveTintColor: '#586589',
       activeTintColor: '#F8F8F8',

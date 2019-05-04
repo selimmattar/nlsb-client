@@ -126,7 +126,14 @@ export default class LoginForm extends React.Component {
                   'currentUsername',
                   this.state.currentUser.username,
                 );
-
+                AsyncStorage.setItem(
+                  'currentFirstname',
+                  this.state.currentUser.firstName,
+                );
+                AsyncStorage.setItem(
+                  'currentLastname',
+                  this.state.currentUser.lastName,
+                );
                 AsyncStorage.setItem(
                   'currentLesson',
                   this.state.currentUser.lesson + '',

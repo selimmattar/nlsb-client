@@ -67,6 +67,7 @@ const App = createMaterialTopTabNavigator(
     },
     Settings: {
       screen: Profile,
+      //screen: Settings,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="user" color={tintColor} size={20} />

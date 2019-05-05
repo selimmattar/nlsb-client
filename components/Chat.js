@@ -467,9 +467,9 @@ export default class Chat extends Component {
               backgroundColor: '#fff',
             }}
           >
-            <ActionButton autoInactive={false} buttonColor="#00a8ff">
+            <ActionButton autoInactive={false} buttonColor="#044434">
               <ActionButton.Item
-                buttonColor="#9b59b6"
+                buttonColor="#04B4AE"
                 title="New Task"
                 onPress={() => console.log('yayyyyyyy')}
               >
@@ -477,7 +477,7 @@ export default class Chat extends Component {
               </ActionButton.Item>
 
               <ActionButton.Item
-                buttonColor="#3498db"
+                buttonColor="#0174DF"
                 title="Microphone"
                 onPress={this._startRecognition.bind(this)}
               >
@@ -495,7 +495,7 @@ export default class Chat extends Component {
             stopAnimation={this.state.stopAnimation}
             numberOfWaves={10}
             frequency={1.9}
-            waveColor="#BA55D3"
+            waveColor="#04B4AE"
             primaryWaveLineWidth={this.state.primaryWaveLineWidth}
           />
         </View>

@@ -67,7 +67,7 @@ const lessonsNum = [
   '41',
   '42',
 ];
-const LastIntents = ['thisthat', 'adjectives', 'nouns', 'simplePastReg'];
+const FirstIntents = ['thisthat', 'adjectives', 'nouns', 'simplePastReg'];
 export default class Chat extends Component {
   constructor(props) {
     super(props);
@@ -98,9 +98,17 @@ export default class Chat extends Component {
   componentDidMount() {
     Tts.addEventListener('tts-start', event => {
       this.setState({ frequency: 0, primaryWaveLineWidth: 80 });
+      if (this.state.responseMessage.length > 0) {
+        const responseMessage = this.state.responseMessage;
+        responseMessage.shift();
+        this.setState({ responseMessage });
+      }
     });
     Tts.addEventListener('tts-finish', event => {
       this.setState({ frequency: 0.5, primaryWaveLineWidth: 20 });
+      setTimeout(() => {
+        this.EnglotRespond();
+      }, 1000);
     });
   }
   componentWillMount() {
@@ -108,18 +116,34 @@ export default class Chat extends Component {
       messages: [],
     });
   }
+  EnglotRespond() {
+    if (this.state.responseMessage.length > 0) {
+      Tts.speak(this.state.responseMessage[0].text.text[0]);
+      var chatmsg = {
+        _id: this.state.messages.length + 1,
+        text: this.state.responseMessage[0].text.text[0],
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+        },
+      };
+      this.setState(previousState => ({
+        messages: GiftedChat.append(previousState.messages, chatmsg),
+      }));
+    }
+  }
   CommunicateDialogFlow(TextToSend) {
     Dialogflow_V2.requestQuery(
       TextToSend,
       result => {
         const intent = JSON.parse(JSON.stringify(result)).queryResult.intent
           .displayName;
-        console.log(result);
+
         if (intent == 'heyUsername') {
           var currentUsername;
           AsyncStorage.getItem('currentUsername')
             .then(response => {
-              console.log(response);
+              ////console.log(response);
               currentUsername = response;
               Dialogflow_V2.requestQuery(
                 'username is ' + currentUsername,
@@ -128,8 +152,9 @@ export default class Chat extends Component {
                     responseMessage: JSON.parse(JSON.stringify(result))
                       .queryResult.fulfillmentMessages,
                   });
-                  for (var t of this.state.responseMessage) {
-                    console.log(t.text.text[0]);
+                  this.EnglotRespond();
+                  /*  for (var t of this.state.responseMessage) {
+                    ////console.log(t.text.text[0]);
                     Tts.speak(t.text.text[0]);
                     var chatmsg = {
                       _id: this.state.messages.length + 1,
@@ -145,7 +170,7 @@ export default class Chat extends Component {
                         chatmsg,
                       ),
                     }));
-                  }
+                  }*/
                 },
                 error => console.log(error),
               );
@@ -157,7 +182,7 @@ export default class Chat extends Component {
         } else if (intent == 'dictionary') {
           const word = JSON.parse(JSON.stringify(result)).queryResult
             .fulfillmentMessages[0].text.text[0];
-          console.log(word);
+          //console.log(word);
           axios
             .get(
               'https://od-api.oxforddictionaries.com/api/v1/entries/en/' + word,
@@ -169,8 +194,8 @@ export default class Chat extends Component {
               },
             )
             .then(response => {
-              console.log('response');
-              console.log(response);
+              //console.log('response');
+              //console.log(response);
               const { data } = response;
               const definition =
                 data.results[0].lexicalEntries[0].entries[0].senses[0]
@@ -206,7 +231,7 @@ export default class Chat extends Component {
               },
             )
             .then(response => {
-              console.log(response);
+              //console.log(response);
               res = response.data;
               var chatmsg = {
                 _id: this.state.messages.length + 1,
@@ -229,15 +254,15 @@ export default class Chat extends Component {
           var currentUserLesson;
           AsyncStorage.getItem('currentLesson')
             .then(response => {
-              console.log(' user lesson' + response);
+              //console.log(' user lesson' + response);
               currentUserLesson = response;
               Dialogflow_V2.requestQuery(
                 lessonsCodes[lessonsNum.indexOf(currentUserLesson)],
                 result => {
                   const Localintent = JSON.parse(JSON.stringify(result))
                     .queryResult.intent.displayName;
-                  console.log(Localintent);
-                  if (LastIntents.includes(Localintent))
+                  //console.log(Localintent);
+                  if (FirstIntents.includes(Localintent))
                     this.setState({
                       responseMessage: JSON.parse(
                         JSON.stringify(result),
@@ -248,8 +273,9 @@ export default class Chat extends Component {
                       responseMessage: JSON.parse(JSON.stringify(result))
                         .queryResult.fulfillmentMessages,
                     });
-                  for (var t of this.state.responseMessage) {
-                    console.log(t.text.text[0]);
+                  this.EnglotRespond();
+                  /* for (var t of this.state.responseMessage) {
+                    //console.log(t.text.text[0]);
                     Tts.speak(t.text.text[0]);
                     var chatmsg = {
                       _id: this.state.messages.length + 1,
@@ -265,7 +291,7 @@ export default class Chat extends Component {
                         chatmsg,
                       ),
                     }));
-                  }
+                  }*/
                 },
                 error => console.log(error),
               );
@@ -274,12 +300,11 @@ export default class Chat extends Component {
               console.log('err retrieve ');
               console.log(err);
             });
-        } else if (LastIntents.includes(intent)) {
-          console.log('entered condition');
+        } else if (FirstIntents.includes(intent)) {
+          //console.log('entered condition');
           const responseMsg = JSON.parse(JSON.stringify(result)).queryResult
             .fulfillmentMessages;
 
-          console.log(parseInt(responseMsg[0].text.text[0]));
           const Lessonlevel = parseInt(responseMsg[0].text.text[0]);
           AsyncStorage.getItem('currentLesson')
             .then(response => {
@@ -293,7 +318,8 @@ export default class Chat extends Component {
                       responseMessage: JSON.parse(JSON.stringify(result))
                         .queryResult.fulfillmentMessages,
                     });
-                    for (var t of this.state.responseMessage) {
+                    this.EnglotRespond();
+                    /* for (var t of this.state.responseMessage) {
                       Tts.speak(t.text.text[0]);
                       var chatmsg = {
                         _id: this.state.messages.length + 1,
@@ -309,7 +335,7 @@ export default class Chat extends Component {
                           chatmsg,
                         ),
                       }));
-                    }
+                    }*/
                   },
                   error => console.log(error),
                 );
@@ -317,8 +343,9 @@ export default class Chat extends Component {
                 this.setState({
                   responseMessage: responseMsg.slice(1),
                 });
-                for (var t of this.state.responseMessage) {
-                  console.log(t.text.text[0]);
+                this.EnglotRespond();
+                /* for (var t of this.state.responseMessage) {
+                  //console.log(t.text.text[0]);
                   Tts.speak(t.text.text[0]);
                   var chatmsg = {
                     _id: this.state.messages.length + 1,
@@ -334,7 +361,7 @@ export default class Chat extends Component {
                       chatmsg,
                     ),
                   }));
-                }
+                }*/
               }
             })
             .catch(err => {
@@ -346,8 +373,8 @@ export default class Chat extends Component {
             responseMessage: JSON.parse(JSON.stringify(result)).queryResult
               .fulfillmentMessages,
           });
-          for (var t of this.state.responseMessage) {
-            console.log(t.text.text[0]);
+          this.EnglotRespond();
+          /* for (var t of this.state.responseMessage) {
             Tts.speak(t.text.text[0]);
             var chatmsg = {
               _id: this.state.messages.length + 1,
@@ -360,7 +387,7 @@ export default class Chat extends Component {
             this.setState(previousState => ({
               messages: GiftedChat.append(previousState.messages, chatmsg),
             }));
-          }
+          }*/
         }
       },
       error => console.log(error),
@@ -380,7 +407,7 @@ export default class Chat extends Component {
     this.setState({ frequency: 1.5, primaryWaveLineWidth: 70 });
   }
   onSpeechResults(e) {
-    console.log(e);
+    //console.log(e);
     this.setState({
       results: e.value,
     });
@@ -411,7 +438,7 @@ export default class Chat extends Component {
       (primaryWaveLineWidth - 2);
 
     if (frequency > 0) this.setState({ frequency });
-    console.log('frequency is ${frequency}');
+    //console.log('frequency is ${frequency}');
     if (primaryWaveLineWidth > 0) this.setState({ primaryWaveLineWidth });
     if (this.state.startAnimation)
       setTimeout(this.animateWave.bind(this), 1000);
@@ -428,6 +455,7 @@ export default class Chat extends Component {
             user={{
               _id: 1,
             }}
+            isAnimated={true}
           />
         </View>
 

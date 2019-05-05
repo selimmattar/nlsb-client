@@ -6,6 +6,7 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  Image
 } from 'react-native';
 import MySingleton from './Singleton/MySingleton';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -67,11 +68,23 @@ class AuthLoading extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-      <View>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
+      <View style={styles.container}>
+                <Image style={styles.logo}
+          source={require('../assets/images/logo.png')}
+        />
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex : 1,
+    flexDirection:'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    resizeMode:'contain'
+  },
+});
 export default AuthLoading;

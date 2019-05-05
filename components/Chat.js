@@ -218,6 +218,29 @@ export default class Chat extends Component {
               console.log('error');
               console.log(error);
             });
+        }else if (intent == 'dictionary.image') {
+          const word = JSON.parse(JSON.stringify(result)).queryResult
+            .fulfillmentMessages[0].text.text[0];
+          //console.log(word);
+
+          fetch('https://www.googleapis.com/customsearch/v1?q='+word+'&searchType=image&key=AIzaSyBhZTG6sKJGJOEALitQQbzY1QeuDFAlmAM&cx=008891785920372734137:v4qop8avcnq').then(response => response.json())
+          .then (data => {
+            var json_fragment = data.items[0].link;
+            this.setState({ image_url: json_fragment });
+            var chatmsg = {
+              _id: this.state.messages.length + 1,
+              image: json_fragment,
+              createdAt: new Date(),
+              user: {
+                _id: 2,
+              },
+            };
+            this.setState(previousState => ({
+              messages: GiftedChat.append(previousState.messages, chatmsg),
+            }));
+          })
+          .catch(error => Alert.alert(error));
+
         } else if (intent == 'dictionary.Sentence') {
           const word = JSON.parse(JSON.stringify(result)).queryResult
             .fulfillmentMessages[0].text.text[0];

@@ -92,7 +92,7 @@ const App = createMaterialTopTabNavigator(
       //screen: Settings,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="wrench" color={tintColor} size={20} />
+          <Icon name="user" color={tintColor} size={20} />
         ),
       },
     },*/

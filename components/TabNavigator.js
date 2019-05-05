@@ -23,7 +23,7 @@ const TabNavigator = createMaterialTopTabNavigator(
         fontStyle: 'normal',
       },
       style: {
-        backgroundColor: 'blue',
+        backgroundColor: '#468189',
       },
     },
   },

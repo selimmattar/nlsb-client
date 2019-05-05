@@ -51,16 +51,19 @@ class AuthLoading extends React.Component {
             .catch(err => {
               console.log('wrong data');
               console.log(err);
+              AsyncStorage.clear();
               this.props.navigation.navigate('Auth');
               //this.setState({ isLoadingComplete: true });
             });
         } else {
           console.log("can't retrieve");
+          AsyncStorage.clear();
           this.props.navigation.navigate('Auth');
         }
       })
       .catch(err => {
         console.log('err retrieve ');
+        AsyncStorage.clear();
         this.props.navigation.navigate('Auth');
       });
   };

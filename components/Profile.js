@@ -57,6 +57,7 @@ export default class Profile extends Component {
     firstName: '',
     lastName: '',
     userLevel: '',
+    image: 'https://bootdey.com/img/Content/avatar/avatar6.png',
   };
   componentWillMount() {
     AsyncStorage.multiGet([
@@ -79,6 +80,11 @@ export default class Profile extends Component {
         console.log('err retrieve ');
         this.props.navigation.navigate('Auth');
       });
+    AsyncStorage.getItem('fb_id').then(
+      response => {
+        this.setState({image : 'https://graph.facebook.com/'+response+'/picture?width=9999&height=9999'})
+      }
+    )
   }
   onContentSizeChange = (contentWidth, contentHeight) => {
     this.setState({ screenHeight: contentHeight });
@@ -94,7 +100,7 @@ export default class Profile extends Component {
           <Image
             style={styles.avatar}
             source={{
-              uri: 'https://bootdey.com/img/Content/avatar/avatar6.png',
+              uri: this.state.image,
             }}
           />
 

@@ -273,7 +273,7 @@ export default class LoginForm extends React.Component {
   };
   initUser(token) {
     fetch(
-      'https://graph.facebook.com/v2.5/me?fields=email,name,first_name,last_name,friends&access_token=' +
+      'https://graph.facebook.com/v2.5/me?fields=id,email,name,first_name,last_name,friends&access_token=' +
         token,
     )
       .then(response => response.json())
@@ -281,6 +281,9 @@ export default class LoginForm extends React.Component {
         // Some user object has been set up somewhere, build that user here
         //this.props.navigation.navigate('App');
         //alert(json.email+json.first_name+json.last_name);
+        AsyncStorage.setItem('fb_id', json.id);
+        AsyncStorage.setItem('currentFirstname', json.first_name);
+        AsyncStorage.setItem('currentLastname', json.last_name);
         this.checkAccountExisting(json.email, json.first_name, json.last_name);
         /*user.name = json.name
       user.id = json.id

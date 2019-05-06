@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, ImageBackground, Image } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground, Image, ScrollView, Animated, Easing } from 'react-native';
 import {
   LineChart,
-  /*BarChart,
-  PieChart,*/
+  BarChart,
+  /*PieChart,*/
   ProgressChart
   //ContributionGraph
 } from 'react-native-chart-kit';
@@ -14,24 +14,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 const screenWidth = Dimensions.get('window').width;
 
-//const height = Dimensions.get('window');
+const barchartData = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+  datasets: [{
+    data: [ 20, 45, 28, 80, 99, 43 ]
+  }]
+}
 
-const data = [0.4, 0.6, 0.8];
-const tab = [];
 const tabLabels =  ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11'];
 
-//const tab = []
-
-/*const data2 = {
-  labels: ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11'],
-  datasets: [{
-    data: this.state.gradesTab,
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})` // optional
-    //strokeWidth: 1 // optional
-  }]
-}*/
-
-
+const graphStyle = {
+  marginVertical: 8,
+}
 
 const chartConfig = {
   backgroundGradientFrom: /*'#171F33',*/ '#171F33',
@@ -48,89 +42,89 @@ class Stats extends React.Component {
 
     this.state = {
       lineChartData : {
+        isFromZero: true,
         labels: [],
         datasets: [{
           data: [],
           color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`
         }]
       },
-      //screenHeight: height,
       grades: {},
       gradesTab: [0],
       gradesLabels: ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11'],
-      slicedLables: ['Level']
+      slicedLables: ['Level'],
+      averageScore: 0,
+      userScore:0,
+      progressChartData: [0],
     };
   }
 
-  
-
   componentDidMount() {
+    this.setState({
+      gradesTab: [0],
+      slicedLables: ['Level'],
+    });
     AsyncStorage.getItem('currentId').then(response => {
       axios
-      .post('http://' + MySingleton.getId() + ':4000/Grade/getByUser', {
+      .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/Grade/getByUser', {
         userId: response,
       })
       .then(res => {
         const grades = res.data;
         this.setState({ grades });
-
+        const tab = [];
+        var score = 0;
         grades.forEach(element => {
-          /*data
-            .find(obj => {
-              return obj.key == element.lesson;
-            })*/
             tab.push(Math.round(element.grade));
             console.log("elt" + element.grade)
+            score = score + Math.round(element.grade);
         });
-
-        this.setState({gradesTab: tab});
-
+        const userMoyRound = Math.round(score / tab.length)
+        const userMoy = userMoyRound / 100;
+        console.log('user score', userMoy);
         const labls = this.state.gradesLabels;
         console.log('taaaaaaaaaab' + tab);
         const slicedlbls = labls.slice(0, tab.length);
         console.log('laaaaaaaabels' + slicedlbls);
-        this.setState({slicedLables : slicedlbls})
 
-        //this.prepareLineChartData();
+        this.setState({
+          gradesTab: tab,
+          userScore: userMoy,
+          slicedLables : slicedlbls
+        });
 
-        /*var labls = this.state.gradesLabels
-        labls.slice(tab.length, 11 - tab.length);*/
-
-        /*const lineChartData = {
-          labels : ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11'],
-          datasets : [{
-            data : [1, 1, 2, 5, 42, 2, 2, 5,8 , 10, 5],
-            color : (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          }]
-        }*/
-
-        //this.setState({ gradesTab: tab });
-        
-        //this.setState({ lineChartData : lineChartData });
       })
       .catch(err => {
         console.log(err);
         this.setState({ isLoadingComplete: true });
       });})
-    
-            //console.log("looooooooooog" + this.state.grades);
-                
-    /*axios
-      .get('http://' + MySingleton.getId() + ':4000//getById/')
+
+      axios
+      .get(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/Grade/')
       .then(res => {
-        const lessons = res.data;
-  
-        lessons.forEach(element => {
-          data
-            .find(obj => {
-              return obj.key == element.lesson;
-            })
-            .questions.push({ ...element, type: 'F' });
+        const allGrades = res.data;
+        const gradesTab = [];
+        var score = 0;
+        allGrades.forEach(element => {
+          gradesTab.push(Math.round(element.grade));
+          score = score + Math.round(element.grade);
         });
+        const scoreMoyRound = Math.round(score / gradesTab.length)
+        const scoreMoy = scoreMoyRound / 100 ;
+        this.setState({
+          averageScore: scoreMoy,
+        });
+        console.log('average score', scoreMoy);
       })
       .catch(err => {
         console.log(err.message);
-      });*/
+      });
+
+      const data = [this.state.userScore, this.state.averageScore];
+      this.setState({
+        progressChartData: data,
+      })
+      console.log('data',this.state.progressChartData);
   }
 
   prepareLineChartData() {
@@ -153,25 +147,24 @@ class Stats extends React.Component {
     };
 
     this.setState({lineChartData : lineChartData})
-    //console.log("dataaaaaaaa" + lineChartData.labels + lineChartData.datasets[0].data + lineChartData.datasets[0].color);
   }
 
   render() {
-    //const scrollEnabled = this.state.screenHeight > height;
     return (
-      
       <View style={styles.container}>
-      <ProgressChart
-        data={data}
+      <ScrollView style={styles.ScrollContainer}>
+            <ProgressChart
+        data={[this.state.averageScore, this.state.userScore]}
         width={screenWidth}
         height={220}
         chartConfig={chartConfig}
         />
+       
 
         <View style={styles.seperator}></View>
 
     
-        <LineChart
+        {/*<LineChart
         data= {{
           labels: this.state.slicedLables ,
           datasets: [{
@@ -183,8 +176,24 @@ class Stats extends React.Component {
         height={220}
         chartConfig={chartConfig}
         bezier
-      />
-      </View>
+      />*/}
+
+<BarChart
+  fromZero={this.state.isFromZero}
+  style={graphStyle}
+  data={{
+    labels: this.state.slicedLables,
+    datasets: [{
+      data: this.state.gradesTab
+    }]
+  }}
+  width={screenWidth}
+  height={220}
+  yAxisLabel={''}
+  chartConfig={chartConfig}
+/>
+
+      </ScrollView></View>
     );
   }
 }
@@ -193,9 +202,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#171F33',
-    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  ScrollContainer: {
+    flex: 1,
   },
   seperator: {
     marginEnd: 20,

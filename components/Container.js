@@ -16,7 +16,7 @@ export default class Container extends React.Component {
     const scrollEnabled = this.state.screenHeight > height;
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor="#468189" />
+        <StatusBar barStyle="light-content" backgroundColor="#044434" />
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={styles.scrollview}

@@ -199,7 +199,7 @@ export default class Lessons extends React.Component {
   componentDidMount() {
     this.handleAnimation;
     axios
-      .get('http://' + MySingleton.getId() + ':4000/ExerciseF/')
+      .get(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/ExerciseF/')
       .then(res => {
         const lessons = res.data;
 
@@ -215,7 +215,7 @@ export default class Lessons extends React.Component {
         console.log(err.message);
       });
     axios
-      .get('http://' + MySingleton.getId() + ':4000/ExerciseQ/')
+      .get(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/ExerciseQ/')
       .then(res => {
         const lessons = res.data;
         lessons.forEach(element => {

@@ -35,7 +35,7 @@ const App = createMaterialTopTabNavigator(
       screen: Chat,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="wechat" color={tintColor} size={20} />
+          <Icon name="wechat" color='white' size={20} />
         ),
       },
     },
@@ -54,7 +54,7 @@ const App = createMaterialTopTabNavigator(
       ),
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="book" color={tintColor} size={20} />
+          <Icon name="book" color='white' size={20} />
         ),
       },
     },
@@ -63,7 +63,7 @@ const App = createMaterialTopTabNavigator(
       screen: Camera,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="camera" color={tintColor} size={20} />
+          <Icon name="camera" color='white' size={20} />
         ),
       },
     },
@@ -83,7 +83,7 @@ const App = createMaterialTopTabNavigator(
       ),
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="wrench" color={tintColor} size={20} />
+          <Icon name="user" color='white' size={20} />
         ),
       },
     },
@@ -112,7 +112,7 @@ const App = createMaterialTopTabNavigator(
         fontStyle: 'normal',
       },
       style: {
-        backgroundColor: '#171F33',
+        backgroundColor: '#044434',
       },
     },
   },

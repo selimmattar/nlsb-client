@@ -108,7 +108,7 @@ export default class LoginForm extends React.Component {
 
             axios
               .post(
-                'http://' + MySingleton.getId() + ':4000/users/authenticate',
+                /*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/authenticate',
                 {
                   username: this.state.username,
                   password: this.state.password,
@@ -273,7 +273,7 @@ export default class LoginForm extends React.Component {
   };
   initUser(token) {
     fetch(
-      'https://graph.facebook.com/v2.5/me?fields=email,name,first_name,last_name,friends&access_token=' +
+      'https://graph.facebook.com/v2.5/me?fields=id,email,name,first_name,last_name,friends&access_token=' +
         token,
     )
       .then(response => response.json())
@@ -281,6 +281,9 @@ export default class LoginForm extends React.Component {
         // Some user object has been set up somewhere, build that user here
         //this.props.navigation.navigate('App');
         //alert(json.email+json.first_name+json.last_name);
+        AsyncStorage.setItem('fb_id', json.id);
+        AsyncStorage.setItem('currentFirstname', json.first_name);
+        AsyncStorage.setItem('currentLastname', json.last_name);
         this.checkAccountExisting(json.email, json.first_name, json.last_name);
         /*user.name = json.name
       user.id = json.id
@@ -300,7 +303,7 @@ export default class LoginForm extends React.Component {
   checkAccountExisting(email, firstName, lastName) {
     //alert(email);
     axios
-      .post('http://' + MySingleton.getId() + ':4000/users/getByEmail', {
+      .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/getByEmail', {
         username: email,
       })
       .then(res => {
@@ -314,7 +317,7 @@ export default class LoginForm extends React.Component {
   }
   _addFbUser(email, firstname, lastname) {
     axios
-      .post('http://' + MySingleton.getId() + ':4000/users/register', {
+      .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/register', {
         username: email,
         password: 'fb',
         firstName: firstname,

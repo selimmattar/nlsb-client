@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
             console.log('registered !');
             // this.props.login(this.state.token);
             axios
-              .post('http://' + MySingleton.getId() + ':4000/users/register', {
+              .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/register', {
                 username: this.state.username,
                 password: this.state.password,
                 firstName: this.state.firstname,

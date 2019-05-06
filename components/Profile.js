@@ -92,7 +92,7 @@ export default class Profile extends Component {
     username: '',
     password: '',
     isFbLogged: false,
-    avatarImage: '',
+    avatarImage: 'https://www.chaarat.com/wp-content/uploads/2017/08/placeholder-user.png',
 
     lineChartData : {
       isFromZero: true,
@@ -106,12 +106,13 @@ export default class Profile extends Component {
     gradesTab: [0],
     gradesLabels: ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11'],
     slicedLables: ['Level'],
-    averageScore: 0,
-    userScore: 0,
-    progressChartData: [0],
+    averageScore: 0.0,
+    userScore: 0.0,
+    progressChartData: [0.0, 0.0],
     userProgress: 0,
 
   };
+
 
   componentDidMount() {
     this.setState({
@@ -120,7 +121,7 @@ export default class Profile extends Component {
     });
     AsyncStorage.getItem('currentId').then(response => {
       axios
-      .post('http://' + MySingleton.getId() + ':4000/Grade/getByUser', {
+      .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/Grade/getByUser', {
         userId: response,
       })
       .then(res => {
@@ -141,11 +142,19 @@ export default class Profile extends Component {
         const slicedlbls = labls.slice(0, tab.length);
         console.log('laaaaaaaabels' + slicedlbls);
 
-        this.setState({
-          gradesTab: tab,
-          userScore: userMoy,
-          slicedLables : slicedlbls
-        });
+        if (tab.length == 0) {
+          this.setState({
+            userScore: 0.0,
+            gradesTab: [0],
+            slicedLables : ['Level'],
+          });
+        } else {
+          this.setState({
+            userScore: userMoy,
+            gradesTab: tab,
+            slicedLables : slicedlbls
+          })
+        }
 
       })
       .catch(err => {
@@ -154,7 +163,7 @@ export default class Profile extends Component {
       });})
 
       axios
-      .get('http://' + MySingleton.getId() + ':4000/Grade/')
+      .get(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/Grade/')
       .then(res => {
         const allGrades = res.data;
         const gradesTab = [];
@@ -380,7 +389,7 @@ export default class Profile extends Component {
                   console.log('effff');
                   AsyncStorage.getItem('currentId').then(response => {
                     axios
-                    .post('http://' + MySingleton.getId() + ':4000/users/updateUser', {
+                    .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/updateUser', {
                       id: response,
                       username: this.state.username,
                       password: this.state.password,

@@ -106,7 +106,7 @@ export default class Vertical extends Component {
             i++;
             console.log('current user lesson is ' + currentUserLesson);
 
-            Axios.post('http://' + MySingleton.getId() + ':4000/Grade/add', {
+            Axios.post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/Grade/add', {
               userId: currentUserId,
               questionId: question.id,
               grade: this.state.grades[i],
@@ -115,9 +115,9 @@ export default class Vertical extends Component {
               .then(res => {
                 if (finalGrade >= 70) {
                   Axios.post(
-                    'http://' +
+                    /*'http://' +
                       MySingleton.getId() +
-                      ':4000/users/updateLesson',
+                      ':4000/*/'https://englot.herokuapp.com/users/updateLesson',
                     {
                       id: currentUserId,
                       lesson: Lessons[Lessons.indexOf(exercise.key) + 1],

@@ -108,7 +108,7 @@ export default class LoginForm extends React.Component {
 
             axios
               .post(
-                'http://' + MySingleton.getId() + ':4000/users/authenticate',
+                /*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/authenticate',
                 {
                   username: this.state.username,
                   password: this.state.password,
@@ -303,7 +303,7 @@ export default class LoginForm extends React.Component {
   checkAccountExisting(email, firstName, lastName) {
     //alert(email);
     axios
-      .post('http://' + MySingleton.getId() + ':4000/users/getByEmail', {
+      .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/getByEmail', {
         username: email,
       })
       .then(res => {
@@ -317,7 +317,7 @@ export default class LoginForm extends React.Component {
   }
   _addFbUser(email, firstname, lastname) {
     axios
-      .post('http://' + MySingleton.getId() + ':4000/users/register', {
+      .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/users/register', {
         username: email,
         password: 'fb',
         firstName: firstname,

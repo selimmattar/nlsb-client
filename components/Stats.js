@@ -66,7 +66,7 @@ class Stats extends React.Component {
     });
     AsyncStorage.getItem('currentId').then(response => {
       axios
-      .post('http://' + MySingleton.getId() + ':4000/Grade/getByUser', {
+      .post(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/Grade/getByUser', {
         userId: response,
       })
       .then(res => {
@@ -100,7 +100,7 @@ class Stats extends React.Component {
       });})
 
       axios
-      .get('http://' + MySingleton.getId() + ':4000/Grade/')
+      .get(/*'http://' + MySingleton.getId() + ':4000*/'https://englot.herokuapp.com/Grade/')
       .then(res => {
         const allGrades = res.data;
         const gradesTab = [];

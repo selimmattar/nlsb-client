@@ -88,8 +88,11 @@ export default class Profile extends Component {
     lastName: '',
     userLevel: '',
     image: 'https://www.chaarat.com/wp-content/uploads/2017/08/placeholder-user.png',
+    imageFb: '',
     username: '',
     password: '',
+    isFbLogged: false,
+    avatarImage: '',
 
     lineChartData : {
       isFromZero: true,
@@ -176,6 +179,27 @@ export default class Profile extends Component {
         progressChartData: data,
       })
       console.log('data',this.state.progressChartData);
+
+      AsyncStorage.getItem('fb_id').then(
+        response => {
+          this.setState({
+            imageFb : 'https://graph.facebook.com/'+response+'/picture?width=9999&height=9999',
+            isFbLogged: true,
+          })
+        }
+      );
+      console.log("isFbLogged", this.state.isFbLogged);
+      const imgUrl = this.state.imageFb;
+
+      if (this.state.isFbLogged) {
+        this.setState({
+          avatarImage : imgUrl,
+        })
+      } else {
+        this.setState({
+          avatarImage : 'https://www.chaarat.com/wp-content/uploads/2017/08/placeholder-user.png',
+        })
+      }
   }
 
   componentWillMount() {
@@ -199,11 +223,7 @@ export default class Profile extends Component {
         console.log('err retrieve ');
         this.props.navigation.navigate('Auth');
       });
-    AsyncStorage.getItem('fb_id').then(
-      response => {
-        this.setState({image : 'https://graph.facebook.com/'+response+'/picture?width=9999&height=9999'})
-      }
-    );
+    
   }
   onContentSizeChange = (contentWidth, contentHeight) => {
     this.setState({ screenHeight: contentHeight });
@@ -223,7 +243,7 @@ export default class Profile extends Component {
           <Image
             style={styles.avatar}
             source={{
-              uri: this.state.image,
+              uri: this.state.avatarImage,
             }}
           />
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, TouchableOpacity } from 'react';
 import ImagePicker from 'react-native-image-picker';
 import AwesomeButtonRick from 'react-native-really-awesome-button/src/themes/rick';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -6,6 +6,7 @@ import LottieView from 'lottie-react-native';
 
 import loading0 from '../assets/anim/loading0.json';
 import loading1 from '../assets/anim/loading1.json';
+import scanning from '../assets/anim/4222-camera-scanning.json';
 
 import {
   TouchableHighlight,
@@ -39,10 +40,14 @@ export default class GoogleAPI extends Component {
       fromUriToBase64: null,
       googleApiResult: null,
       stillNoResponse: false,
-      animation: '',
+      animation: loading0 ,
+      loop: true,
+
     };
   }
-
+  componentDidMount() {
+    //this.animation.play();
+  }
   openLibrary() {
     ImagePicker.launchImageLibrary(options, response => {
       console.log('Response = ', response);
@@ -55,10 +60,8 @@ export default class GoogleAPI extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = { uri: response.uri };
-
         // You can also display the image using data:
         //const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
         this.setState({
           avatarSource: source,
           image: response.data,
@@ -94,6 +97,7 @@ export default class GoogleAPI extends Component {
   }
 
   render() {
+    //console.log("animation",this.state.animation);
     return (
       <View style={styles.container}>
         <Button
@@ -106,7 +110,7 @@ export default class GoogleAPI extends Component {
           onPress={() => this.submitToGoogle()}
           title="Analyze!"
         />
-
+        <LottieView source={require('../assets/anim/4222-camera-scanning.json')} autoPlay loop />
         <AwesomeButtonRick
           title="Open Me!"
           onPress={() => this.openCamera()}

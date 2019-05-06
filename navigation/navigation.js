@@ -27,6 +27,8 @@ import SignUp from '../components/SignUp';
 import GoogleAPI from '../components/GoogleAPI';
 import GridLayout from '../components/GridLayout';
 import Profile from '../components/Profile';
+import Camera from '../components/Camera';
+
 const App = createMaterialTopTabNavigator(
   {
     Chat: {
@@ -56,9 +58,9 @@ const App = createMaterialTopTabNavigator(
         ),
       },
     },
-    
-    GoogleAPI: {
-      screen: GoogleAPI,
+
+    Camera: {
+      screen: Camera,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Icon name="camera" color={tintColor} size={20} />

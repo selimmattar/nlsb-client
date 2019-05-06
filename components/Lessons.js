@@ -377,14 +377,7 @@ export default class Lessons extends React.Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          style={{
-            margin: 2,
-            borderRadius: 2,
-            backgroundColor: prop.color,
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          
         >
           <Text
             style={{
